@@ -27,11 +27,14 @@ struct Pokemon: Identifiable {
 
     // Each of the members below (except `stats`) are integers,
     // which are used to lookup the PokéAPI to load full information.
+
+    // Only the `species` is mandatory.
+    // The rest of the members can be filled in one by one by the user.
     var species: Int
-    var ability: Int
-    var item: Int
+    var ability: Int?
+    var item: Int?
     var moves: [Int]
-    var nature: Int
+    var nature: Int?
 
     var stats: StatSpread
 }
