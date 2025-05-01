@@ -30,7 +30,7 @@ struct ItemApiData: Codable, Identifiable {
         self.sprite = URL(string: sprite.sprite)
 
         let effectEntries = try values.decode(Array<ItemEffect>.self, forKey: .effect)
-        self.effect = effectEntries[0].shortEffect
+        self.effect = effectEntries.isEmpty ? "" : effectEntries[0].shortEffect
     }
 }
 
