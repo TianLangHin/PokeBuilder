@@ -16,11 +16,11 @@ struct Team: Identifiable {
 
     var pokemon: [Pokemon]
 
-    func addPokemon(pokemon: Pokemon) {
+    mutating func addPokemon(pokemon: Pokemon) {
         self.pokemon.append(pokemon)
     }
 
-    func deletePokemon(pokemon: Pokemon) {
+    mutating func deletePokemon(pokemon: Pokemon) {
         guard let index = self.pokemon.firstIndex(where: {$0.id == pokemon.id}) else {return}
         self.pokemon.remove(at: index)
     }
