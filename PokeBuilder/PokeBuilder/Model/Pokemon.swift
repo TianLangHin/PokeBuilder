@@ -15,6 +15,19 @@ struct Team: Identifiable {
     static let maximumPokemon = 6
 
     var pokemon: [Pokemon]
+
+    func addPokemon(pokemon: Pokemon) {
+        self.pokemon.append(pokemon)
+    }
+
+    func deletePokemon(pokemon: Pokemon) {
+        guard let index = self.pokemon.firstIndex(where: {$0.id == pokemon.id}) else {return}
+        self.pokemon.remove(at: index)
+    }
+
+    func numPokemon() -> Int {
+        return self.pokemon.count
+    }
 }
 
 struct Pokemon: Identifiable {
@@ -30,13 +43,17 @@ struct Pokemon: Identifiable {
 
     // Only the `name` is mandatory.
     // The rest of the members can be filled in one by one by the user.
-    var name: Int
+    var pokedexNum: Int
     var ability: String?
     var item: Int?
     var moves: [Int]
     var nature: Int?
 
     var stats: StatSpread
+
+    func getMoves() -> [Int] {
+        return self.moves
+    }
 }
 
 // A separate `StatSpread` struct makes the declaration of EVs
