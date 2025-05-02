@@ -27,7 +27,7 @@ class ItemCacheViewModel: ObservableObject, Observable {
                 guard let itemCount = try? jsonDecoder.decode(ItemCount.self, from: pagingData) else {
                     return
                 }
-                for itemIndex in 0..<itemCount.count {
+                for itemIndex in 1...itemCount.count {
                     let itemUrl = URL(string: "https://pokeapi.co/api/v2/item/\(itemIndex)")!
                     let itemResponse = try? await URLSession.shared.data(from: itemUrl)
                     guard let (data, _) = itemResponse else {
@@ -42,6 +42,6 @@ class ItemCacheViewModel: ObservableObject, Observable {
     }
 }
 
-struct ItemCount: Codable {
+private struct ItemCount: Codable {
     let count: Int
 }

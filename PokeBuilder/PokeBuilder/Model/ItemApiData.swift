@@ -34,7 +34,7 @@ struct ItemApiData: Codable, Identifiable {
     }
 }
 
-struct ItemEffect: Codable {
+private struct ItemEffect: Codable {
     let shortEffect: String
 
     enum CodingKeys: String, CodingKey {
@@ -42,7 +42,7 @@ struct ItemEffect: Codable {
     }
 }
 
-struct ItemSprite: Codable {
+private struct ItemSprite: Codable {
     let sprite: String
 
     enum CodingKeys: String, CodingKey {
