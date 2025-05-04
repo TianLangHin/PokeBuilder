@@ -9,15 +9,29 @@ import SwiftUI
 
 struct PokemonView: View {
 
-    @Binding var pokemon: Pokemon
-
-    @ObservedObject var itemData: ItemCacheViewModel
-    @ObservedObject var natureData: NatureCacheViewModel
-    @ObservedObject var pokemonData: PokemonCacheViewModel
+    @ObservedObject var pokemonData: PokemonDataViewModel
 
     var body: some View {
-        VStack {
-            
+        ZStack {
+            Color.white.ignoresSafeArea()
+            if let pokemon = pokemonData.data {
+                VStack {
+                    Text("\(pokemon.name)")
+                        .font(.largeTitle)
+                    AsyncImage(url: pokemon.sprite)
+                    Text("\(pokemon.stats)")
+                    Text("\(pokemon.types.map({ $0.name }))")
+                    List(pokemon.moves, id: \.url) { pokemonMove in
+                        Text("\(pokemonMove.name)")
+                    }
+                }
+            } else {
+                Text("Loading")
+            }
         }
     }
+}
+
+#Preview {
+    PokemonView(pokemonData: PokemonDataViewModel(name: "kyogre"))
 }
