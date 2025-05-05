@@ -24,9 +24,16 @@ struct HomeView: View {
                     Text("PokéBuilder")
                         .font(.largeTitle)
                         .padding()
+                    
                     NavigationLink(destination: TeamListView(teamList: teamList)) {
                         Text("View Teams")
                         .font(.title)
+                        .frame(width: 180, height: 70)
+                        .cornerRadius(10)
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                        .foregroundColor(.white)
+                        .padding()
+                        
                     }
                     Spacer()
                 }

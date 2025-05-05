@@ -14,9 +14,9 @@ struct TeamListView: View {
 
     var body: some View {
         VStack {
-            Text("My Teams")
-                .font(.largeTitle)
-                .padding()
+//            Text("My Teams")
+//                .font(.largeTitle)
+//                .padding()
             List(teamList.userTeams) { team in
                 NavigationLink(destination: TeamView(teamList: teamList, id: team.id)) {
                     LineupView(team: team)
@@ -37,6 +37,13 @@ struct TeamListView: View {
             }
         }
         .padding()
+        .toolbarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("My Teams")
+                    .font(.largeTitle)
+            }
+        }
     }
 }
 
@@ -57,3 +64,11 @@ struct LineupView: View {
         }
     }
 }
+
+
+#Preview{
+    @Previewable @State var teamList: TeamListViewModel = .init()
+    TeamListView(teamList: teamList)
+}
+
+
