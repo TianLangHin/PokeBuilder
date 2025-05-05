@@ -55,11 +55,6 @@ struct LineupView: View {
             Text("\(team.name)")
                 .font(.title2)
                 .padding()
-            HStack {
-                ForEach(team.pokemon) { pokemon in
-                    AsyncImage(url: pokemon.baseData.sprite)
-                }
-            }
         }
     }
 }

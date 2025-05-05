@@ -16,8 +16,12 @@ struct TeamView: View {
             VStack {
                 Text("\(team.name)")
                     .font(.largeTitle)
-                List(team.pokemon) { pokemon in
-                    TeamMemberView(pokemon: pokemon)
+                List {
+                    ForEach($team.pokemon) { $pokemon in
+                        NavigationLink(destination: PokemonView(pokemon: $pokemon)) {
+                            TeamMemberView(pokemon: pokemon)
+                        }
+                    }
                 }
             }
             Spacer()
@@ -63,7 +67,7 @@ struct TeamMemberView: View {
             }
         }
     }
-    
+
     func typeDisplay(pos: Int, empty: String) -> String {
         let types = pokemon.baseData.types
         if types.count > pos {
@@ -72,7 +76,7 @@ struct TeamMemberView: View {
             return empty
         }
     }
-    
+
     func moveDisplay(pos: Int) -> String {
         let moves = pokemon.chosenMoves
         if moves.count > pos {
