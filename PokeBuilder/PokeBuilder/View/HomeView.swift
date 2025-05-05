@@ -8,25 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
+
+    @StateObject var teamList = TeamListViewModel()
+
+    @State var query = ""
+
     var body: some View {
         ZStack {
             // Placeholder for background colour later
             Color.white.ignoresSafeArea()
 
-            VStack {
-                Spacer()
-                Text("PokéBuilder")
-                    .font(.largeTitle)
-                Button(action: {
-                    // Empty action to be completed with
-                    // navigation functionality
-                }) {
-                    Text("View Teams")
-                        .font(.title2)
+            NavigationView {
+                VStack {
+                    Spacer()
+                    Text("PokéBuilder")
+                        .font(.largeTitle)
+                        .padding()
+                    NavigationLink(destination: TeamListView(teamList: teamList)) {
+                        Text("View Teams")
+                        .font(.title)
+                    }
+                    Spacer()
                 }
-                .padding()
-                .buttonStyle(.borderedProminent)
-                Spacer()
             }
         }
     }

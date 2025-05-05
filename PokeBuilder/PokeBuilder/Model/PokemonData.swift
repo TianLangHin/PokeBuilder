@@ -13,7 +13,7 @@ struct PokemonData: Codable {
     let moves: [PokemonMove]
     let types: [PokemonType]
     let stats: [Int]
-    
+
     enum CodingKeys: String, CodingKey {
         case name = "name"
         case sprite = "sprites"
@@ -57,7 +57,7 @@ struct PokemonData: Codable {
     }
 }
 
-struct PokemonMoveWrapper: Codable {
+private struct PokemonMoveWrapper: Codable {
     let move: PokemonMove
 }
 
@@ -66,7 +66,7 @@ struct PokemonMove: Codable {
     let url: URL?
 }
 
-struct PokemonTypeWrapper: Codable {
+private struct PokemonTypeWrapper: Codable {
     let type: PokemonType
 }
 
