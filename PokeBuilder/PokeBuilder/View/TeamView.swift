@@ -9,33 +9,25 @@ import SwiftUI
 
 struct TeamView: View {
 
-    @ObservedObject var teamList: TeamListViewModel
-    @State var id: UUID
+    @Binding var team: Team
 
     var body: some View {
         VStack {
-            if let team = teamList.userTeams.first(where: {$0.id == id}) {
-                VStack {
-                    Text("\(team.name)")
-                        .font(.largeTitle)
-                    List(team.pokemon) { pokemon in
-                        TeamMemberView(pokemon: pokemon)
-                    }
+            VStack {
+                Text("\(team.name)")
+                    .font(.largeTitle)
+                List(team.pokemon) { pokemon in
+                    TeamMemberView(pokemon: pokemon)
                 }
+            }
+            Spacer()
+            HStack {
                 Spacer()
-                HStack {
-                    Spacer()
-                    if team.pokemon.count < Team.maximumPokemon {
-                        NavigationLink(destination: FuzzyFinderView(
-                            teamList: teamList,
-                            id: id
-                        )) {
-                            Text("Add Pokemon")
-                        }
+                if team.pokemon.count < Team.maximumPokemon {
+                    NavigationLink(destination: FuzzyFinderView(team: $team)) {
+                        Text("Add Pokemon")
                     }
                 }
-            } else {
-                Text("This team does not exist!")
             }
         }
         .padding()

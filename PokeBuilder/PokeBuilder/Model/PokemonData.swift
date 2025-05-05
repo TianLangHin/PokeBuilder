@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+// PokemonData(name: "hello", sprite: nil, moves: [], types: [], stats: [])
 struct PokemonData: Codable {
     let name: String
     let sprite: URL?

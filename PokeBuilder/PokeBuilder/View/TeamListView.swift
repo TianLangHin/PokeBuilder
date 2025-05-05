@@ -14,12 +14,11 @@ struct TeamListView: View {
 
     var body: some View {
         VStack {
-//            Text("My Teams")
-//                .font(.largeTitle)
-//                .padding()
-            List(teamList.userTeams) { team in
-                NavigationLink(destination: TeamView(teamList: teamList, id: team.id)) {
-                    LineupView(team: team)
+            List {
+                ForEach($teamList.userTeams) { $team in
+                    NavigationLink(destination: TeamView(team: $team)) {
+                        LineupView(team: team)
+                    }
                 }
             }
             Spacer()
