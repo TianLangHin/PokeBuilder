@@ -16,6 +16,6 @@ struct Pokemon: Identifiable {
     static let maximumMoves = 4
 
     let baseData: PokemonData
-    let chosenMoves = [PokemonMove]()
-    let statSpread = StatSpread()
+    var chosenMoves = [PokemonMove]()
+    var statSpread = StatSpread()
 }
