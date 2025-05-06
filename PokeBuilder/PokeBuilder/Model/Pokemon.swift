@@ -19,7 +19,7 @@ struct Pokemon: Identifiable {
     var chosenMoves = [PokemonMove]()
     var statSpread = StatSpread()
 
-    static func getName() -> String {
+    func getName() -> String {
         let customNames = [
             "nidoran-f": "Nidoran (F)",
             "nidoran-m": "Nidoran (M)",
