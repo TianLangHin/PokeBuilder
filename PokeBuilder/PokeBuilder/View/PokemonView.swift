@@ -120,10 +120,10 @@ struct PokemonView: View {
                 }
                 .padding()
                 //This is for testing only
-                Text("Move1: \(pokemon.chosenMoves.indices.contains(0) ? pokemon.chosenMoves[0].name : PokemonMove(name: "Select Move", url: nil).name)")
-                Text("Move2: \(pokemon.chosenMoves.indices.contains(1) ? pokemon.chosenMoves[1].name : PokemonMove(name: "Select Move", url: nil).name)")
-                Text("Move3: \(pokemon.chosenMoves.indices.contains(2) ? pokemon.chosenMoves[2].name : PokemonMove(name: "Select Move", url: nil).name)")
-                Text("Move4: \(pokemon.chosenMoves.indices.contains(3) ? pokemon.chosenMoves[3].name : PokemonMove(name: "Select Move", url: nil).name)")
+                Text("Move1: \(pokemon.chosenMoves.indices.contains(0) ? pokemon.chosenMoves[0].name : PokemonMove(name: "None", url: nil).name)")
+                Text("Move2: \(pokemon.chosenMoves.indices.contains(1) ? pokemon.chosenMoves[1].name : PokemonMove(name: "None", url: nil).name)")
+                Text("Move3: \(pokemon.chosenMoves.indices.contains(2) ? pokemon.chosenMoves[2].name : PokemonMove(name: "None", url: nil).name)")
+                Text("Move4: \(pokemon.chosenMoves.indices.contains(3) ? pokemon.chosenMoves[3].name : PokemonMove(name: "None", url: nil).name)")
                 
                 Text("Effort Values:")
                     .font(.title3)
@@ -155,7 +155,7 @@ struct PokemonView: View {
             listMove = pokemon.baseData.moves
             if pokemon.chosenMoves.isEmpty{
                 for _ in 0..<4{
-                    pokemon.chosenMoves.append(PokemonMove(name: "Select Move", url: nil))
+                    pokemon.chosenMoves.append(PokemonMove(name: "None", url: nil))
                 }
             }
             selectMove1 = pokemon.chosenMoves[0]

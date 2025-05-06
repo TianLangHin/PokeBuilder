@@ -19,7 +19,7 @@ struct TeamView: View {
                 List {
                     ForEach($team.pokemon) { $pokemon in
                         NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) { //Adding list_move as something that need to be passed
-                            TeamMemberView(pokemon: pokemon)
+                            TeamMemberView(pokemon: $pokemon)
                         }
                     }
                 }
@@ -48,8 +48,17 @@ struct TeamView: View {
     }
 }
 
+
+
+///Need to find a way to dynamically refresh each item in the list to make the move appear when clicking `back`
 struct TeamMemberView: View {
-    @State var pokemon: Pokemon
+    @Binding var pokemon: Pokemon
+    
+    ///This is to initially show the four moves of the pokemon (I can't leave it blank)
+    @State var move1: String = ""
+    @State var move2: String = ""
+    @State var move3: String = ""
+    @State var move4: String = ""
     
     var body: some View {
         HStack {
@@ -66,15 +75,21 @@ struct TeamMemberView: View {
                 .padding()
                 Grid() {
                     GridRow {
-                        Text("\(moveDisplay(pos: 0))")
-                        Text("\(moveDisplay(pos: 1))")
+                        Text("\(move1)")
+                        Text("\(move2)")
                     }
                     GridRow {
-                        Text("\(moveDisplay(pos: 2))")
-                        Text("\(moveDisplay(pos: 3))")
+                        Text("\(move3)")
+                        Text("\(move4)")
                     }
                 }
             }
+        }
+        .onAppear(){
+            move1 = (String(moveDisplay(pos: 0)) == "") ? "None" : String(moveDisplay(pos: 0))
+            move2 = (String(moveDisplay(pos: 1)) == "") ? "None" : String(moveDisplay(pos: 1))
+            move3 = (String(moveDisplay(pos: 2)) == "") ? "None" : String(moveDisplay(pos: 2))
+            move4 = (String(moveDisplay(pos: 3)) == "") ? "None" : String(moveDisplay(pos: 3))
         }
     }
 
