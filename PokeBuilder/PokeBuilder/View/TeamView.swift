@@ -14,11 +14,11 @@ struct TeamView: View {
     var body: some View {
         VStack {
             VStack {
-                Text("\(team.name)")
-                    .font(.largeTitle)
+//                Text("\(team.name)")
+//                    .font(.largeTitle)
                 List {
                     ForEach($team.pokemon) { $pokemon in
-                        NavigationLink(destination: PokemonView(pokemon: $pokemon)) {
+                        NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) { //Adding list_move as something that need to be passed
                             TeamMemberView(pokemon: pokemon)
                         }
                     }
@@ -38,6 +38,13 @@ struct TeamView: View {
             }
         }
         .padding()
+        .toolbarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("\(team.name)")
+                    .font(.largeTitle)
+            }
+        }
     }
 }
 

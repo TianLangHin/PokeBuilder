@@ -61,7 +61,7 @@ private struct PokemonMoveWrapper: Codable {
     let move: PokemonMove
 }
 
-struct PokemonMove: Codable {
+struct PokemonMove: Codable, Hashable { //Adding hashable for testing first
     let name: String
     let url: URL?
 }
