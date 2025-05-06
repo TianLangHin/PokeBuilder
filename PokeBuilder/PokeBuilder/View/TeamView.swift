@@ -86,10 +86,10 @@ struct TeamMemberView: View {
             }
         }
         .onAppear(){
-            move1 = (String(moveDisplay(pos: 0)) == "") ? "None" : String(moveDisplay(pos: 0))
-            move2 = (String(moveDisplay(pos: 1)) == "") ? "None" : String(moveDisplay(pos: 1))
-            move3 = (String(moveDisplay(pos: 2)) == "") ? "None" : String(moveDisplay(pos: 2))
-            move4 = (String(moveDisplay(pos: 3)) == "") ? "None" : String(moveDisplay(pos: 3))
+            move1 = moveDisplay(pos: 0, empty: "None")
+            move2 = moveDisplay(pos: 1, empty: "None")
+            move3 = moveDisplay(pos: 2, empty: "None")
+            move4 = moveDisplay(pos: 3, empty: "None")
         }
     }
 
@@ -102,12 +102,12 @@ struct TeamMemberView: View {
         }
     }
 
-    func moveDisplay(pos: Int) -> String {
+    func moveDisplay(pos: Int, empty: String) -> String {
         let moves = pokemon.chosenMoves
         if moves.count > pos {
             return moves[pos].name
         } else {
-            return ""
+            return empty
         }
     }
 }
