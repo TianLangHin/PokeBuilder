@@ -26,6 +26,9 @@ struct TeamView: View {
             }
             Spacer()
             HStack {
+                NavigationLink(destination: AnalysisView(team: team)) {
+                    Text("Analyse Team")
+                }
                 Spacer()
                 if team.pokemon.count < Team.maximumPokemon {
                     NavigationLink(destination: FuzzyFinderView(team: $team)) {
