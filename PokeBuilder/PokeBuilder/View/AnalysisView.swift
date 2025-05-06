@@ -11,23 +11,40 @@ struct AnalysisView: View {
     @StateObject var teamAnalysis = TeamAnalysisViewModel()
     @State var team: Team
     @State var defensiveCoverage: [String: Int] = [:]
-
+    @State var offensiveCoverage: [String: Int] = [:]
     var body: some View {
         VStack {
             Text("Team Analysis")
                 .font(.title)
                 .padding()
-            List(Array(defensiveCoverage).sorted(by: { e1, e2 in
-                TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
-                >= TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
-            }), id: \.key) { key, value in
-                Text("\(key): \(value)")
+            HStack {
+                VStack {
+                    Text("Defensive Coverage")
+                        .padding()
+                    List(Array(defensiveCoverage).sorted(by: { e1, e2 in
+                        TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
+                        >= TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
+                    }), id: \.key) { key, value in
+                        Text("\(key): \(value)")
+                    }
+                }
+                VStack {
+                    Text("Offensive Coverage")
+                        .padding()
+                    List(Array(offensiveCoverage).sorted(by: { e1, e2 in
+                        TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
+                        >= TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
+                    }), id: \.key) { key, value in
+                        Text("\(key): \(value)")
+                    }
+                }
             }
         }
         .onAppear(perform: {
             Task {
                 await teamAnalysis.prepareTable()
                 defensiveCoverage = teamAnalysis.defensiveCoverage(team: team)
+                offensiveCoverage = await teamAnalysis.offensiveCoverage(team: team)
             }
         })
     }

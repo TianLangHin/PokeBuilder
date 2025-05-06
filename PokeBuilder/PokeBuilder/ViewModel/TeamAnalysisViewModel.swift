@@ -96,7 +96,7 @@ class TeamAnalysisViewModel: ObservableObject, Observable {
             hasPrepared = true
         }
     }
-
+    
     func defensiveCoverage(team: Team) -> [String: Int] {
         var teamDefense: [String: Int] = [:]
         for typeName in TeamAnalysisViewModel.typeNames {
@@ -123,5 +123,40 @@ class TeamAnalysisViewModel: ObservableObject, Observable {
             teamDefense[typeName] = totalTypeScore
         }
         return teamDefense
+    }
+
+    func offensiveCoverage(team: Team) async -> [String: Int] {
+        var teamOffense: [String: Int] = [:]
+        for typeName in TeamAnalysisViewModel.typeNames {
+            teamOffense[typeName] = 0
+            for pokemon in team.pokemon {
+                for move in pokemon.chosenMoves {
+                    guard let url = move.url else {
+                        continue
+                    }
+                    guard let (data, _) = try? await URLSession.shared.data(from: url) else {
+                        continue
+                    }
+                    guard let moveData = try? jsonDecoder.decode(MoveData.self, from: data) else {
+                        continue
+                    }
+                    guard moveData.damageClass.name != "status" else {
+                        continue
+                    }
+                    let relation = typeMatchups[typeName]?.getDefensiveRelation(to: moveData.type.name)
+                    let score: Int
+                    switch relation {
+                    case .normal, nil:
+                        score = 0
+                    case .half, .immune:
+                        score = -1
+                    case .double:
+                        score = 1
+                    }
+                    teamOffense[typeName] = (teamOffense[typeName] ?? 0) + score
+                }
+            }
+        }
+        return teamOffense
     }
 }
