@@ -19,7 +19,7 @@ struct Pokemon: Identifiable {
     var chosenMoves = [PokemonMove]()
     var statSpread = StatSpread()
 
-    static func getName(pokemonName: String) -> String {
+    static func getName() -> String {
         let customNames = [
             "nidoran-f": "Nidoran (F)",
             "nidoran-m": "Nidoran (M)",
@@ -35,11 +35,12 @@ struct Pokemon: Identifiable {
             "chien-pao": "Chien-Pao",
             "ting-lu": "Ting-Lu"
         ]
+        let pokemonName = self.baseData.name
         if let newName = customNames[pokemonName] {
             return newName
         }
         else {
-            return pokemonName.replaceOccurrences(of: "-", with:" ").capitalised
+            return pokemonName.replacingOccurrences(of: "-", with:" ").capitalized
         }
     }
 }
