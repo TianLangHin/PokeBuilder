@@ -7,7 +7,7 @@
 
 import SwiftUI
 // PokemonData(name: "hello", sprite: nil, moves: [], types: [], stats: [])
-struct PokemonData: Codable {
+struct PokemonData: Decodable {
     let name: String
     let sprite: URL?
     let moves: [PokemonMove]
@@ -15,8 +15,8 @@ struct PokemonData: Codable {
     let stats: [Int]
 
     enum CodingKeys: String, CodingKey {
-        case name = "name"
-        case sprite = "sprites"
+        case species = "species"
+        case sprites = "sprites"
         case moves = "moves"
         case types = "types"
         case stats = "stats"
@@ -25,9 +25,10 @@ struct PokemonData: Codable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.name = try values.decode(String.self, forKey: .name)
+        let speciesData = try values.decode(PokemonSpecies.self, forKey: .species)
+        self.name = speciesData.name
 
-        let spriteData = try values.decode(SpriteData.self, forKey: .sprite)
+        let spriteData = try values.decode(SpriteData.self, forKey: .sprites)
         self.sprite = URL(string: spriteData.frontDefault)
 
         let moveData = try values.decode(Array<PokemonMoveWrapper>.self, forKey: .moves)
@@ -55,6 +56,10 @@ struct PokemonData: Codable {
             case baseStat = "base_stat"
         }
     }
+}
+
+private struct PokemonSpecies: Codable {
+    let name: String
 }
 
 private struct PokemonMoveWrapper: Codable {
