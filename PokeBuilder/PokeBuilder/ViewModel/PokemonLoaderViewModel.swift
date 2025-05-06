@@ -11,8 +11,8 @@ class PokemonLoaderViewModel: ObservableObject, Observable {
 
     let jsonDecoder = JSONDecoder()
 
-    func getData(name: String) async -> PokemonData? {
-        let requestUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/\(name)")!
+    func getData(pokemonNumber: Int) async -> PokemonData? {
+        let requestUrl = URL(string: "https://pokeapi.co/api/v2/pokemon/\(pokemonNumber)")!
         let response = try? await URLSession.shared.data(from: requestUrl)
         guard let (data, _) = response else {
             return nil

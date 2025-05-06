@@ -27,9 +27,11 @@ struct FuzzyFinderView: View {
             List(fuzzyFinder.filterOnSubstring(query: query), id: \.self) { pokemon in
                 Button(action: {
                     Task {
-                        let pokeData = await pokemonLoader.getData(name: pokemon)
-                        if let pokemonObject = pokeData {
-                            team.addPokemon(pokemon: Pokemon(baseData: pokemonObject))
+                        if let pokeNumber = fuzzyFinder.apiNumber(name: pokemon) {
+                            let pokeData = await pokemonLoader.getData(pokemonNumber: pokeNumber)
+                            if let pokemonObject = pokeData {
+                                team.addPokemon(pokemon: Pokemon(baseData: pokemonObject))
+                            }
                         }
                         dismiss()
                     }
