@@ -23,6 +23,10 @@ struct PokemonView: View {
     @State var spa: Double = 0.0
     @State var spd: Double = 0.0
     @State var spe: Double = 0.0
+    
+    var total: Double{
+        hp + atk + def + spa + spd + spe
+    }
 
     var body: some View {
         ZStack {
@@ -126,15 +130,16 @@ struct PokemonView: View {
                 
                 }
                 .padding()
-                //This is for testing only
-                Text("Move1: \(pokemon.chosenMoves.indices.contains(0) ? pokemon.chosenMoves[0].name : PokemonMove(name: "None", url: nil).name)")
-                Text("Move2: \(pokemon.chosenMoves.indices.contains(1) ? pokemon.chosenMoves[1].name : PokemonMove(name: "None", url: nil).name)")
-                Text("Move3: \(pokemon.chosenMoves.indices.contains(2) ? pokemon.chosenMoves[2].name : PokemonMove(name: "None", url: nil).name)")
-                Text("Move4: \(pokemon.chosenMoves.indices.contains(3) ? pokemon.chosenMoves[3].name : PokemonMove(name: "None", url: nil).name)")
                 
-                Text("Effort Values:")
-                    .font(.title3)
-                    .padding()
+                HStack{
+                    Text("Effort Values: ")
+                        .font(.title3)
+                    Text("\(Int(total))")
+                        .font(.title3)
+                        .foregroundStyle((Int(total) > 500) ? Color.red : Color.black)
+                }
+                .padding()
+                
                 Grid() {
                     GridRow {
                         VStack {

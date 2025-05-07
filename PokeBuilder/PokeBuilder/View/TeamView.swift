@@ -14,8 +14,6 @@ struct TeamView: View {
     var body: some View {
         VStack {
             VStack {
-//                Text("\(team.name)")
-//                    .font(.largeTitle)
                 List {
                     ForEach($team.pokemon) { $pokemon in
                         NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) { //Adding list_move as something that need to be passed

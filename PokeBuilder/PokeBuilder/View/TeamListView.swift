@@ -15,12 +15,17 @@ struct TeamListView: View {
     var body: some View {
         VStack {
             List {
-                ForEach($teamList.userTeams) { $team in
-                    NavigationLink(destination: TeamView(team: $team)) {
-                        LineupView(team: team)
+                ForEach(teamList.userTeams.indices, id: \.self) { index in
+                    NavigationLink(destination: TeamView(team: $teamList.userTeams[index])) {
+                        LineupView(team: teamList.userTeams[index])
                     }
+                    .listRowBackground(index % 2 == 0 ? Color(hex: 0xFFC1C3) : Color(hex: 0xD1EDFF))
                 }
             }
+            .scrollContentBackground(.hidden)
+
+
+            
             Spacer()
             HStack {
                 TextField("New Team Name", text: $newTeamName)
@@ -55,6 +60,9 @@ struct LineupView: View {
             Text("\(team.name)")
                 .font(.title2)
                 .padding()
+                .foregroundColor(Color.black)
+                .fontWeight(.bold)
+                
         }
     }
 }
@@ -66,3 +74,14 @@ struct LineupView: View {
 }
 
 
+
+//Note: Old list
+//            List {
+//                ForEach($teamList.userTeams) { $team in
+//                    NavigationLink(destination: TeamView(team: $team)) {
+//                        LineupView(team: team)
+//                    }
+//                    .listRowBackground((teamList.userTeams.count % 2 == 0) ? Color(hex: 0xFF7074) : Color.blue)
+//                }
+//            }
+//            .scrollContentBackground(.hidden)

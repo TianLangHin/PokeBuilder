@@ -14,29 +14,42 @@ struct HomeView: View {
     @State var query = ""
 
     var body: some View {
-        ZStack {
-            // Placeholder for background colour later
-            Color.white.ignoresSafeArea()
-
-            NavigationView {
+        NavigationView {
+            ZStack {
+                // Placeholder for background colour later
+                VStack{
+                    Color.red.frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Rectangle()
+                        .frame(height: 10)
+                        .padding(.top, -10)
+                    
+                    Color.white.frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
+                .ignoresSafeArea()
+            
+            
                 VStack {
                     Spacer()
                     Text("PokéBuilder")
                         .font(.largeTitle)
-                        .padding()
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.white)
+                    
+                    
+                    Spacer()
+                        .frame(height: 100)
                     
                     NavigationLink(destination: TeamListView(teamList: teamList)) {
                         Text("View Teams")
                         .font(.title)
-                        .frame(width: 180, height: 70)
+                        .frame(width: 180, height: 80)
                         .cornerRadius(10)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color.blue))
+                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: 0x3b3b3b)))
                         .foregroundColor(.white)
-                        .padding()
-                        
                     }
                     Spacer()
                 }
+                
             }
         }
     }
