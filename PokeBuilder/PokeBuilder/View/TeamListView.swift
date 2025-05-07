@@ -29,6 +29,8 @@ struct TeamListView: View {
             Spacer()
             HStack {
                 TextField("New Team Name", text: $newTeamName)
+                    .autocorrectionDisabled(true)
+                
                 Spacer()
                 Button("Add Team", action: {
                     // Some filtering can be done here to ensure

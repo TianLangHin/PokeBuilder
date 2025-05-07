@@ -21,6 +21,8 @@ struct TeamView: View {
                         }
                     }
                 }
+                .scrollContentBackground(.hidden)
+                
             }
             Spacer()
             HStack {

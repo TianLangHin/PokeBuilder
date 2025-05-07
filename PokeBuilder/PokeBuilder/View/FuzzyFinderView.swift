@@ -21,9 +21,12 @@ struct FuzzyFinderView: View {
             Text("New Pokémon")
                 .font(.title)
                     .padding()
+            
             TextField("Search here", text: $query)
                 .padding()
                 .autocapitalization(.none)
+                .autocorrectionDisabled(true)
+            
             List(fuzzyFinder.filterOnSubstring(query: query), id: \.self) { pokemon in
                 Button(action: {
                     Task {
