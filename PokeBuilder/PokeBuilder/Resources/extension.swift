@@ -9,6 +9,8 @@ import Foundation
 import SwiftUICore
 
 extension Color {
+    static let primary: Color = .init(hex: 0x3b3b3b)
+    
     init(hex: Int) {
         self.init(
             .sRGB,

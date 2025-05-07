@@ -19,10 +19,11 @@ struct TeamView: View {
                         NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) { //Adding list_move as something that need to be passed
                             TeamMemberView(pokemon: $pokemon)
                         }
+                        .listRowBackground(getBackground(type: pokemon.baseData.types[0]))
                     }
                 }
                 .scrollContentBackground(.hidden)
-                
+                                
             }
             Spacer()
             HStack {
@@ -44,6 +45,50 @@ struct TeamView: View {
                 Text("\(team.name)")
                     .font(.largeTitle)
             }
+        }
+    }
+    
+    //Find new color cuh
+    func getBackground(type: PokemonType) -> Color {
+        switch type.name {
+        case "normal":
+            return Color.gray
+        case "fighting":
+            return Color.brown
+        case "flying":
+            return Color.blue
+        case "poison":
+            return Color.purple
+        case "ground":
+            return Color.brown
+        case "rock":
+            return Color.black
+        case "bug":
+            return Color.green
+        case "steel":
+            return Color.gray
+        case "ghost":
+            return Color.black
+        case "fire":
+            return Color.red
+        case "water":
+            return Color.blue
+        case "grass":
+            return Color.green
+        case "electric":
+            return Color.yellow
+        case "psychic":
+            return Color.purple
+        case "ice":
+            return Color.blue
+        case "dragon":
+            return Color.blue
+        case "dark":
+            return Color.black
+        case "fairy":
+            return Color.pink
+        default:
+            return Color.gray
         }
     }
 }
