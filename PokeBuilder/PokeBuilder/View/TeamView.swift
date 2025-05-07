@@ -65,7 +65,7 @@ struct TeamMemberView: View {
             VStack {
                 AsyncImage(url: pokemon.baseData.sprite)
                     .padding()
-                Text("\(pokemon.baseData.name)")
+                Text("\(pokemon.format())")
             }
             VStack {
                 HStack {

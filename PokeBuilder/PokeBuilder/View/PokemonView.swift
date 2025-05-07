@@ -16,7 +16,14 @@ struct PokemonView: View {
     @State var selectMove3: PokemonMove?
     @State var selectMove4: PokemonMove?
     @State var listMove: [PokemonMove]
-    
+
+    @State var hp: Double = 0.0
+    @State var atk: Double = 0.0
+    @State var def: Double = 0.0
+    @State var spa: Double = 0.0
+    @State var spd: Double = 0.0
+    @State var spe: Double = 0.0
+
     var body: some View {
         ZStack {
             Color.white.ignoresSafeArea()
@@ -24,7 +31,7 @@ struct PokemonView: View {
                 HStack {
                     AsyncImage(url: pokemon.baseData.sprite)
                     VStack {
-                        Text("\(pokemon.baseData.name)")
+                        Text("\(pokemon.format())")
                             .font(.title)
                         HStack {
                             Text("\(typeDisplay(pos: 0, empty: "unknown"))")
@@ -130,22 +137,106 @@ struct PokemonView: View {
                     .padding()
                 Grid() {
                     GridRow {
-                        Text("HP: \(pokemon.statSpread.hitPoints)")
-                            .padding()
-                        Text("SpA: \(pokemon.statSpread.specialAttack)")
-                            .padding()
+                        VStack {
+                            Text("HP: \(pokemon.statSpread.hitPoints)")
+                                .padding()
+                            Slider(value: $hp, in: 0...255, step: 4)
+                                .onChange(of: hp) { prevValue, newValue in
+                                    let newTotal = pokemon.statSpread.newTotal(change: .hp(Int(newValue)))
+                                    if newTotal > StatSpread.maximumAllocation {
+                                        hp = prevValue
+                                    } else {
+                                        pokemon.statSpread.hitPoints = Int(newValue)
+                                    }
+                                }
+                                .onAppear(perform: {
+                                    hp = Double(pokemon.statSpread.hitPoints)
+                                })
+                        }
+                        VStack {
+                            Text("SpA: \(pokemon.statSpread.specialAttack)")
+                                .padding()
+                            Slider(value: $spa, in: 0...255, step: 4)
+                                .onChange(of: spa) { prevValue, newValue in
+                                    let newTotal = pokemon.statSpread.newTotal(change: .spa(Int(newValue)))
+                                    if newTotal > StatSpread.maximumAllocation {
+                                        spa = prevValue
+                                    } else {
+                                        pokemon.statSpread.specialAttack = Int(newValue)
+                                    }
+                                }
+                                .onAppear(perform: {
+                                    spa = Double(pokemon.statSpread.specialAttack)
+                                })
+                        }
                     }
                     GridRow {
-                        Text("Atk: \(pokemon.statSpread.attack)")
-                            .padding()
-                        Text("SpD: \(pokemon.statSpread.specialDefense)")
-                            .padding()
+                        VStack {
+                            Text("Atk: \(pokemon.statSpread.attack)")
+                                .padding()
+                            Slider(value: $atk, in: 0...255, step: 4)
+                                .onChange(of: atk) { prevValue, newValue in
+                                    let newTotal = pokemon.statSpread.newTotal(change: .atk(Int(newValue)))
+                                    if newTotal > StatSpread.maximumAllocation {
+                                        atk = prevValue
+                                    } else {
+                                        pokemon.statSpread.attack = Int(newValue)
+                                    }
+                                }
+                                .onAppear(perform: {
+                                    atk = Double(pokemon.statSpread.attack)
+                                })
+                        }
+                        VStack {
+                            Text("SpD: \(pokemon.statSpread.specialDefense)")
+                                .padding()
+                            Slider(value: $spd, in: 0...255, step: 4)
+                                .onChange(of: spd) { prevValue, newValue in
+                                    let newTotal = pokemon.statSpread.newTotal(change: .spd(Int(newValue)))
+                                    if newTotal > StatSpread.maximumAllocation {
+                                        spd = prevValue
+                                    } else {
+                                        pokemon.statSpread.specialDefense = Int(newValue)
+                                    }
+                                }
+                                .onAppear(perform: {
+                                    spd = Double(pokemon.statSpread.specialDefense)
+                                })
+                        }
                     }
                     GridRow {
-                        Text("Def: \(pokemon.statSpread.defense)")
-                            .padding()
-                        Text("Spe: \(pokemon.statSpread.speed)")
-                            .padding()
+                        VStack {
+                            Text("Def: \(pokemon.statSpread.defense)")
+                                .padding()
+                            Slider(value: $def, in: 0...255, step: 4)
+                                .onChange(of: def) { prevValue, newValue in
+                                    let newTotal = pokemon.statSpread.newTotal(change: .def(Int(newValue)))
+                                    if newTotal > StatSpread.maximumAllocation {
+                                        def = prevValue
+                                    } else {
+                                        pokemon.statSpread.defense = Int(newValue)
+                                    }
+                                }
+                                .onAppear(perform: {
+                                    def = Double(pokemon.statSpread.defense)
+                                })
+                        }
+                        VStack {
+                            Text("Spe: \(pokemon.statSpread.speed)")
+                                .padding()
+                            Slider(value: $spe, in: 0...255, step: 4)
+                                .onChange(of: spe) { prevValue, newValue in
+                                    let newTotal = pokemon.statSpread.newTotal(change: .spe(Int(newValue)))
+                                    if newTotal > StatSpread.maximumAllocation {
+                                        spe = prevValue
+                                    } else {
+                                        pokemon.statSpread.speed = Int(newValue)
+                                    }
+                                }
+                                .onAppear(perform: {
+                                    spe = Double(pokemon.statSpread.speed)
+                                })
+                        }
                     }
                 }
             }

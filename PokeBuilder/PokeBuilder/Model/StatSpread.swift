@@ -24,4 +24,31 @@ struct StatSpread {
         let lastThree = self.specialAttack + self.specialDefense + self.speed
         return firstThree + lastThree
     }
+
+    func newTotal(change: StatChange) -> Int {
+        let total = currentTotal()
+        switch change {
+        case let .hp(increment):
+            return total - self.hitPoints + increment
+        case let .atk(increment):
+            return total - self.attack + increment
+        case let .def(increment):
+            return total - self.defense + increment
+        case let .spa(increment):
+            return total - self.specialAttack + increment
+        case let .spd(increment):
+            return total - self.specialDefense + increment
+        case let .spe(increment):
+            return total - self.speed + increment
+        }
+    }
+}
+
+enum StatChange {
+    case hp(Int)
+    case atk(Int)
+    case def(Int)
+    case spa(Int)
+    case spd(Int)
+    case spe(Int)
 }

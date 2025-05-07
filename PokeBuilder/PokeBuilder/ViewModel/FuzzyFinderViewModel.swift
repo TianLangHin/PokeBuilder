@@ -32,10 +32,13 @@ class FuzzyFinderViewModel: ObservableObject, Observable {
     func filterOnSubstring(query: String) -> [String] {
         // Will potentially need normalisation here and account for
         // difference between API format and human-readable format.
+        let query = query.lowercased()
         if query.trimmingCharacters(in: .whitespaces) == "" {
             return pokemonNames
         }
-        return pokemonNames.filter({ isSubSequence(sub: query, larger: $0) })
+        return pokemonNames.filter({
+            isSubSequence(sub: query, larger: Pokemon.format(pokemonName: $0).lowercased())
+        })
     }
 
     private func isSubSequence(sub: String, larger: String) -> Bool {
