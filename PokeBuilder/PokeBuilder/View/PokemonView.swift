@@ -50,7 +50,7 @@ struct PokemonView: View {
                             Text("Move 1:")
                             Picker("Move 1", selection: $selectMove1){
                                 ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.name)").tag(move)
+                                    Text("\(move.formatMove(name))").tag(move)
                                 }
                             }
                             .onChange(of: selectMove1){ oldValue, newMove in
@@ -71,7 +71,7 @@ struct PokemonView: View {
                             Text("Move 2:")
                             Picker("Move 2", selection: $selectMove2){
                                 ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.name)").tag(move)
+                                    Text("\(move.formatMove(name))").tag(move)
                                 }
                             }
                             .onChange(of: selectMove2){ oldValue, newMove in
@@ -92,7 +92,7 @@ struct PokemonView: View {
                             Text("Move 3:")
                             Picker("Move 3", selection: $selectMove3){
                                 ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.name)").tag(move)
+                                    Text("\(move.formatMove(name))").tag(move)
                                 }
                             }
                             .onChange(of: selectMove3){ oldValue, newMove in
@@ -113,7 +113,7 @@ struct PokemonView: View {
                             Text("Move 4:")
                             Picker("Move 4", selection: $selectMove4){
                                 ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.name)").tag(move)
+                                    Text("\(move.formatMove())").tag(move)
                                 }
                             }
                             .onChange(of: selectMove4){ oldValue, newMove in
