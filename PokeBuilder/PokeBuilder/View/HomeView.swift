@@ -14,7 +14,7 @@ struct HomeView: View {
     @State var query = ""
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 // Placeholder for background colour later
                 VStack{

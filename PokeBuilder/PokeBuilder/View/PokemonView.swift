@@ -374,7 +374,7 @@ struct PokemonView: View {
         case "rock":
             return Color.black
         case "bug":
-            return Color.black
+            return Color.black  //Test white
         case "steel":
             return Color.black
         case "ghost":
@@ -382,7 +382,7 @@ struct PokemonView: View {
         case "fire":
             return Color.black
         case "water":
-            return Color.white
+            return Color.white  //Test black
         case "grass":
             return Color.black
         case "electric":

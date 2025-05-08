@@ -114,6 +114,9 @@ struct TeamMemberView: View {
                     .padding()
                 Text("\(pokemon.formatName())")
             }
+            
+            Spacer()
+            
             VStack {
                 HStack {
                     Text("\(typeDisplay(pos: 0, empty: "unknown"))")
