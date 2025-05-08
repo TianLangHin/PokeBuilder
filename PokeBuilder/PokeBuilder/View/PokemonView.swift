@@ -362,19 +362,19 @@ struct PokemonView: View {
     func getTypeForeColor(type: String) -> Color{
         switch type {
         case "normal":
-            return Color.black
+            return Color.white
         case "fighting":
             return Color.white
         case "flying":
-            return Color.white
+            return Color.black
         case "poison":
             return Color.white
         case "ground":
             return Color.black
         case "rock":
-            return Color.black
+            return Color.white
         case "bug":
-            return Color.black  //Test white
+            return Color.white
         case "steel":
             return Color.black
         case "ghost":
@@ -382,7 +382,7 @@ struct PokemonView: View {
         case "fire":
             return Color.black
         case "water":
-            return Color.white  //Test black
+            return Color.black
         case "grass":
             return Color.black
         case "electric":
@@ -396,7 +396,7 @@ struct PokemonView: View {
         case "dark":
             return Color.white
         case "fairy":
-            return Color.white
+            return Color.black
         default:
             return Color.black
         }

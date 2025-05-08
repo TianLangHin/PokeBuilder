@@ -21,4 +21,14 @@ class TeamListViewModel: ObservableObject, Observable {
         let newTeam = Team(name: name)
         userTeams.append(newTeam)
     }
+    
+    
+    func duplicateCheck(name: String) -> Bool {
+        for team in userTeams {
+            if team.name == name {
+                return true
+            }
+        }
+        return false
+    }
 }

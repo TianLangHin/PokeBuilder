@@ -35,11 +35,12 @@ struct TeamListView: View {
                 Button("Add Team", action: {
                     // Some filtering can be done here to ensure
                     // a non-blank name and a non-duplicate.
-                    teamList.addTeam(name: newTeamName)
+                    teamList.addTeam(name: newTeamName.trimmingCharacters(in: .whitespacesAndNewlines))
                     newTeamName = ""
                 })
                 .padding()
                 .buttonStyle(.borderedProminent)
+                .disabled(newTeamName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || teamList.duplicateCheck(name: newTeamName))
             }
         }
         .padding()
