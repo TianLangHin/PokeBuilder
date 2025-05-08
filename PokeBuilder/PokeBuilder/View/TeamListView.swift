@@ -11,7 +11,8 @@ struct TeamListView: View {
 
     @ObservedObject var teamList: TeamListViewModel
     @State var newTeamName = ""
-
+    
+    
     var body: some View {
         VStack {
             List {
@@ -23,10 +24,9 @@ struct TeamListView: View {
                 }
             }
             .scrollContentBackground(.hidden)
-
-
-            
+                
             Spacer()
+            
             HStack {
                 TextField("New Team Name", text: $newTeamName)
                     .autocorrectionDisabled(true)
@@ -52,6 +52,10 @@ struct TeamListView: View {
         }
     }
 }
+
+
+
+
 
 struct LineupView: View {
 
@@ -87,3 +91,4 @@ struct LineupView: View {
 //                }
 //            }
 //            .scrollContentBackground(.hidden)
+
