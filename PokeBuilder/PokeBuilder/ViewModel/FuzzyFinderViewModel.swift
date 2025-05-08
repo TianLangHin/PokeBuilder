@@ -37,7 +37,7 @@ class FuzzyFinderViewModel: ObservableObject, Observable {
             return pokemonNames
         }
         return pokemonNames.filter({
-            isSubSequence(sub: query, larger: Pokemon.format(pokemonName: $0).lowercased())
+            isSubSequence(sub: query, larger: Pokemon.formatName(pokemonName: $0).lowercased())
         })
     }
 

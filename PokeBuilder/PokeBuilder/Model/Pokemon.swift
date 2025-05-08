@@ -49,6 +49,6 @@ struct Pokemon: Identifiable {
     }
 
     func formatName() -> String {
-        return Pokemon.format(pokemonName: self.baseData.name)
+        return Pokemon.formatName(pokemonName: self.baseData.name)
     }
 }

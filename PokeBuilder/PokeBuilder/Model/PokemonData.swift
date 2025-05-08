@@ -66,10 +66,10 @@ private struct PokemonMoveWrapper: Codable {
     let move: PokemonMove
 }
 
-struct PokemonMove: Codable, Hashable { //Adding hashable for testing first
+struct PokemonMove: Codable, Hashable, Comparable { //Adding hashable for testing first
     let name: String
     let url: URL?
-
+    
     func formatMove() -> String {
         let customNames = [
             "lands-wrath": "Land's Wrath",
@@ -89,13 +89,21 @@ struct PokemonMove: Codable, Hashable { //Adding hashable for testing first
             "will-o-wisp": "Will-O-Wisp",
             "x-scissor": "X-Scissor"
         ]
-
+        
         if let newName = customNames[self.name] {
             return newName
         }
         else {
             return self.name.replacingOccurrences(of: "-", with: " ").capitalized
         }
+    }
+
+    static func < (lhs: PokemonMove, rhs: PokemonMove) -> Bool {
+        return lhs.name < rhs.name
+    }
+
+    static func == (lhs: PokemonMove, rhs: PokemonMove) -> Bool {
+        return lhs.name == rhs.name
     }
 }
 
