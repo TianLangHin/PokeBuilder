@@ -23,7 +23,6 @@ struct Pokemon: Identifiable {
         let customNames = [
             "nidoran-f": "Nidoran (F)",
             "nidoran-m": "Nidoran (M)",
-            "porygon-2": "Porygon2",
             "farfetch-d": "Farfetch'd",
             "sirfetch-d": "Sirfetch'd",
             "ho-oh": "Ho-Oh",
