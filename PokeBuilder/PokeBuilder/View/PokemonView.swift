@@ -49,7 +49,7 @@ struct PokemonView: View {
                         HStack{
                             Text("Move 1:")
                             Picker("Move 1", selection: $selectMove1){
-                                ForEach(listMove, id: \.self) { move in
+                                ForEach(listMove.sort(), id: \.self) { move in
                                     Text("\(move.name)").tag(move)
                                 }
                             }
@@ -70,7 +70,7 @@ struct PokemonView: View {
                         HStack{
                             Text("Move 2:")
                             Picker("Move 2", selection: $selectMove2){
-                                ForEach(listMove, id: \.self) { move in
+                                ForEach(listMove.sort(), id: \.self) { move in
                                     Text("\(move.name)").tag(move)
                                 }
                             }
@@ -91,7 +91,7 @@ struct PokemonView: View {
                         HStack{
                             Text("Move 3:")
                             Picker("Move 3", selection: $selectMove3){
-                                ForEach(listMove, id: \.self) { move in
+                                ForEach(listMove.sort(), id: \.self) { move in
                                     Text("\(move.name)").tag(move)
                                 }
                             }
@@ -112,7 +112,7 @@ struct PokemonView: View {
                         HStack{
                             Text("Move 4:")
                             Picker("Move 4", selection: $selectMove4){
-                                ForEach(listMove, id: \.self) { move in
+                                ForEach(listMove.sort(), id: \.self) { move in
                                     Text("\(move.name)").tag(move)
                                 }
                             }
