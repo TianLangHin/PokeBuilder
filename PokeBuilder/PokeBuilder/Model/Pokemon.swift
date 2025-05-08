@@ -19,7 +19,7 @@ struct Pokemon: Identifiable {
     var chosenMoves = [PokemonMove]()
     var statSpread = StatSpread()
 
-    static func format(pokemonName: String) -> String {
+    static func formatName(pokemonName: String) -> String {
         let customNames = [
             "nidoran-f": "Nidoran (F)",
             "nidoran-m": "Nidoran (M)",
@@ -48,7 +48,7 @@ struct Pokemon: Identifiable {
         }
     }
 
-    func format() -> String {
+    func formatName() -> String {
         return Pokemon.format(pokemonName: self.baseData.name)
     }
 }

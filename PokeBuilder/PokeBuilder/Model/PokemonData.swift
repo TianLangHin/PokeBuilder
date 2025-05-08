@@ -69,6 +69,34 @@ private struct PokemonMoveWrapper: Codable {
 struct PokemonMove: Codable, Hashable { //Adding hashable for testing first
     let name: String
     let url: URL?
+
+    func formatMove() -> String {
+        let customNames = [
+            "lands-wrath": "Land's Wrath",
+            "baby-doll-eyes": "Baby-Doll Eyes",
+            "forests-curse": "Forest's Curse",
+            "freeze-dry": "Freeze-Dry",
+            "lock-on": "Lock-On",
+            "mud-slap": "Mud-Slap",
+            "multi-attack": "Multi-Attack",
+            "natures-madness": "Nature's Madness",
+            "power-up-punch": "Power-Up Punch",
+            "self-destruct": "Self-Destruct",
+            "trick-or-treat": "Trick-Or-Treat",
+            "u-turn": "U-Turn",
+            "v-create": "V-Create",
+            "wake-up-slap": "Wake-Up Slap",
+            "will-o-wisp": "Will-O-Wisp",
+            "x-scissor": "X-Scissor"
+        ]
+
+        if let newName = customNames[self.name] {
+            return newName
+        }
+        else {
+            return self.name.replacingOccurrences(of: "-", with: " ").capitalized
+        }
+    }
 }
 
 private struct PokemonTypeWrapper: Codable {
