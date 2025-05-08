@@ -49,44 +49,45 @@ struct TeamView: View {
     }
     
     //Find new color cuh
+    //https://gist.github.com/apaleslimghost/0d25ec801ca4fc43317bcff298af43c3
     func getBackground(type: PokemonType) -> Color {
         switch type.name {
         case "normal":
-            return Color.gray
+            return Color(hex: 0xA8A77A)
         case "fighting":
-            return Color.brown
+            return Color(hex: 0xC22E28)
         case "flying":
-            return Color.blue
+            return Color(hex: 0xA98FF3)
         case "poison":
-            return Color.purple
+            return Color(hex: 0xA33EA1)
         case "ground":
-            return Color.brown
+            return Color(hex: 0xE2BF65)
         case "rock":
-            return Color.black
+            return Color(hex: 0xB6A136)
         case "bug":
-            return Color.green
+            return Color(hex: 0xA6B91A)
         case "steel":
-            return Color.gray
+            return Color(hex: 0xB7B7CE)
         case "ghost":
-            return Color.black
+            return Color(hex: 0x735797)
         case "fire":
-            return Color.red
+            return Color(hex: 0xEE8130)
         case "water":
-            return Color.blue
+            return Color(hex: 0x6390F0)
         case "grass":
-            return Color.green
+            return Color(hex: 0x7AC74C)
         case "electric":
-            return Color.yellow
+            return Color(hex: 0xF7D02C)
         case "psychic":
-            return Color.purple
+            return Color(hex: 0xF95587)
         case "ice":
-            return Color.blue
+            return Color(hex: 0x96D9D6)
         case "dragon":
-            return Color.blue
+            return Color(hex: 0x6F35FC)
         case "dark":
-            return Color.black
+            return Color(hex: 0x705746)
         case "fairy":
-            return Color.pink
+            return Color(hex: 0xD685AD)
         default:
             return Color.gray
         }
