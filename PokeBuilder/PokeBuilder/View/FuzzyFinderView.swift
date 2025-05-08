@@ -18,10 +18,6 @@ struct FuzzyFinderView: View {
     
     var body: some View {
         VStack {
-            Text("New Pokémon")
-                .font(.title)
-                    .padding()
-            
             TextField("Search here", text: $query)
                 .padding()
                 .autocapitalization(.none)
@@ -47,6 +43,14 @@ struct FuzzyFinderView: View {
             }
         }
         .padding()
+        .padding(.top, -20)
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                Text("New Pokémon")
+                    .font(.largeTitle)
+                    .padding()
+            }
+        }
     }
     
     private func getSpriteUrl(pokemon: String) -> URL? {

@@ -113,6 +113,7 @@ struct TeamMemberView: View {
                 AsyncImage(url: pokemon.baseData.sprite)
                     .padding()
                 Text("\(pokemon.formatName())")
+                    .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
             }
             
             Spacer()
@@ -120,17 +121,26 @@ struct TeamMemberView: View {
             VStack {
                 HStack {
                     Text("\(typeDisplay(pos: 0, empty: "unknown"))")
+                        .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                    
                     Text("\(typeDisplay(pos: 1, empty: ""))")
+                        .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
                 }
                 .padding()
                 Grid() {
                     GridRow {
                         Text("\(move1)")
+                            .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                        
                         Text("\(move2)")
+                            .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
                     }
                     GridRow {
                         Text("\(move3)")
+                            .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                        
                         Text("\(move4)")
+                            .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
                     }
                 }
             }
@@ -158,6 +168,50 @@ struct TeamMemberView: View {
             return moves[pos].formatMove()
         } else {
             return empty
+        }
+    }
+    
+    
+    func getListForeColor(type: PokemonType) -> Color{
+        switch type.name {
+        case "normal":
+            return Color.white
+        case "fighting":
+            return Color.white
+        case "flying":
+            return Color.black
+        case "poison":
+            return Color.white
+        case "ground":
+            return Color.black
+        case "rock":
+            return Color.white
+        case "bug":
+            return Color.white
+        case "steel":
+            return Color.black
+        case "ghost":
+            return Color.white
+        case "fire":
+            return Color.black
+        case "water":
+            return Color.black
+        case "grass":
+            return Color.black
+        case "electric":
+            return Color.black
+        case "psychic":
+            return Color.white
+        case "ice":
+            return Color.black
+        case "dragon":
+            return Color.white
+        case "dark":
+            return Color.white
+        case "fairy":
+            return Color.black
+        default:
+            return Color.black
         }
     }
 }
