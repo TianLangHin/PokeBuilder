@@ -143,8 +143,10 @@ struct PokemonView: View {
                 Grid() {
                     GridRow {
                         VStack {
+                            // Stat colour palette obtained from PokePaste
                             Text("HP: \(pokemon.statSpread.hitPoints)")
                                 .padding()
+                                .foregroundColor(Color(hex: 0xFF0000))
                             Slider(value: $hp, in: 0...255, step: 4)
                                 .onChange(of: hp) { prevValue, newValue in
                                     let newTotal = pokemon.statSpread.newTotal(change: .hp(Int(newValue)))
@@ -161,6 +163,7 @@ struct PokemonView: View {
                         VStack {
                             Text("SpA: \(pokemon.statSpread.specialAttack)")
                                 .padding()
+                                .foregroundColor(Color(hex: 0x6890F0))
                             Slider(value: $spa, in: 0...255, step: 4)
                                 .onChange(of: spa) { prevValue, newValue in
                                     let newTotal = pokemon.statSpread.newTotal(change: .spa(Int(newValue)))
@@ -179,6 +182,7 @@ struct PokemonView: View {
                         VStack {
                             Text("Atk: \(pokemon.statSpread.attack)")
                                 .padding()
+                                .foregroundColor(Color(hex: 0xF08030))
                             Slider(value: $atk, in: 0...255, step: 4)
                                 .onChange(of: atk) { prevValue, newValue in
                                     let newTotal = pokemon.statSpread.newTotal(change: .atk(Int(newValue)))
@@ -195,6 +199,7 @@ struct PokemonView: View {
                         VStack {
                             Text("SpD: \(pokemon.statSpread.specialDefense)")
                                 .padding()
+                                .foregroundColor(Color(hex: 0x78C850))
                             Slider(value: $spd, in: 0...255, step: 4)
                                 .onChange(of: spd) { prevValue, newValue in
                                     let newTotal = pokemon.statSpread.newTotal(change: .spd(Int(newValue)))
@@ -213,6 +218,7 @@ struct PokemonView: View {
                         VStack {
                             Text("Def: \(pokemon.statSpread.defense)")
                                 .padding()
+                                .foregroundColor(Color(hex: 0xF8D030))
                             Slider(value: $def, in: 0...255, step: 4)
                                 .onChange(of: def) { prevValue, newValue in
                                     let newTotal = pokemon.statSpread.newTotal(change: .def(Int(newValue)))
@@ -229,6 +235,7 @@ struct PokemonView: View {
                         VStack {
                             Text("Spe: \(pokemon.statSpread.speed)")
                                 .padding()
+                                .foregroundColor(Color(hex: 0xF85888))
                             Slider(value: $spe, in: 0...255, step: 4)
                                 .onChange(of: spe) { prevValue, newValue in
                                     let newTotal = pokemon.statSpread.newTotal(change: .spe(Int(newValue)))
