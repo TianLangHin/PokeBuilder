@@ -151,7 +151,7 @@ struct TeamMemberView: View {
     func moveDisplay(pos: Int, empty: String) -> String {
         let moves = pokemon.chosenMoves
         if moves.count > pos {
-            return moves[pos].formatMove(name)
+            return moves[pos].formatMove()
         } else {
             return empty
         }
