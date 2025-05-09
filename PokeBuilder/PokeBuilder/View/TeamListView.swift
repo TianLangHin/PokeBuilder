@@ -34,6 +34,7 @@ struct TeamListView: View {
                     }
                     .listRowBackground(index % 2 == 0 ? Color(hex: 0xFFC1C3) : Color(hex: 0xD1EDFF))
                 }
+            }
             .scrollContentBackground(.hidden)
                 
             Spacer()
