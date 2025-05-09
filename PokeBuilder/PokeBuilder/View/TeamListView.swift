@@ -19,9 +19,10 @@ struct TeamListView: View {
             List {
                 ForEach($teamList.userTeams, id: \.id) { $team in
                     NavigationLink(destination: TeamView(team: $team)) {
-                        LineupView(team: team)
+                        VStack {
+                            LineupView(team: team)
+                        }
                     }
-                    //Change it to a better pale color
                     .listRowBackground(Color(hex: 0xFFADB0))
                 }
                 .onDelete(perform: teamList.deleteTeam)

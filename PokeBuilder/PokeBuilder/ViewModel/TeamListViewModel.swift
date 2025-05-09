@@ -17,7 +17,8 @@ class TeamListViewModel: ObservableObject, Observable {
         self.userTeams[index].clear()
         self.userTeams.remove(at: index)
     }
-
+    
+    
     func addTeam(name: String) {
         let newTeam = Team(name: name)
         userTeams.append(newTeam)
