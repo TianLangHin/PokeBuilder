@@ -14,6 +14,7 @@ class TeamListViewModel: ObservableObject, Observable {
         guard let index = userTeams.firstIndex(where: {$0.id == team.id}) else {
             return
         }
+        self.userTeams[index].clear()
         self.userTeams.remove(at: index)
     }
 
@@ -30,5 +31,10 @@ class TeamListViewModel: ObservableObject, Observable {
             }
         }
         return false
+    }
+    
+    
+    func deleteTeam(at offsets: IndexSet) {
+        userTeams.remove(atOffsets: offsets)
     }
 }

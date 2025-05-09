@@ -12,29 +12,19 @@ struct TeamListView: View {
     @ObservedObject var teamList: TeamListViewModel
     @State var newTeamName = ""
     
+    var isPhone = (UIDevice.current.userInterfaceIdiom == .phone)
     
     var body: some View {
         VStack {
             List {
-                ForEach(teamList.userTeams.indices, id: \.self) { index in
-                    NavigationLink(destination: TeamView(team: $teamList.userTeams[index])) {
-                        VStack{
-                            Text("\(teamList.userTeams[index].name)")
-                            HStack {
-                                ForEach(teamList.userTeams[index].pokemon) { pokemon in
-                                    AsyncImage(url: pokemon.baseData.sprite) { image in
-                                        image
-                                            .resizable()                                            
-                                            .aspectRatio(contentMode: .fit)
-                                    }  placeholder: {
-                                        LineupView(team: teamList.userTeams[index])
-                                    }
-                                }
-                            }
-                        }
-                   }
-                    .listRowBackground(index % 2 == 0 ? Color(hex: 0xFFC1C3) : Color(hex: 0xD1EDFF))
+                ForEach($teamList.userTeams, id: \.id) { $team in
+                    NavigationLink(destination: TeamView(team: $team)) {
+                        LineupView(team: team)
+                    }
+                    //Change it to a better pale color
+                    .listRowBackground(Color(hex: 0xFFADB0))
                 }
+                .onDelete(perform: teamList.deleteTeam)
             }
             .scrollContentBackground(.hidden)
                 
@@ -106,3 +96,51 @@ struct LineupView: View {
 //            }
 //            .scrollContentBackground(.hidden)
 
+
+
+//ForEach(teamList.userTeams.indices, id: \.self) { index in
+//    NavigationLink(destination: TeamView(team: $teamList.userTeams[index])) {
+//        VStack{
+//            Text("\(teamList.userTeams[index].name)")
+//                .font(.title)
+//            
+//            GeometryReader { geometry in
+//                let availableWidth = geometry.size.width * 0.9
+//                let fixedSize = availableWidth / 6
+//                
+//                HStack {
+//                    ForEach(teamList.userTeams[index].pokemon) { pokemon in
+//                        AsyncImage(url: pokemon.baseData.sprite) { image in
+//                            image
+//                                .resizable()
+//                                .aspectRatio(contentMode: .fit)
+//                                .frame(width: fixedSize, height: fixedSize)
+//                        }  placeholder: {
+//                            LineupView(team: teamList.userTeams[index])
+//                        }
+//                    }
+//                }
+//                .padding(.top, (isPhone ? 0 : -15))
+//            }
+//        }
+//        .padding(.bottom, (isPhone ? 8 : 80))
+//   }
+//}
+
+
+
+
+
+//HStack {
+//    ForEach(teamList.userTeams[index].pokemon) { pokemon in
+//        AsyncImage(url: pokemon.baseData.sprite) { image in
+//            image
+//                .resizable()
+//                .aspectRatio(contentMode: .fit)
+//        
+//        }  placeholder: {
+//            LineupView(team: team)
+//        }
+//    }
+//}
+//.padding(.top, (isPhone ? 0 : -15))

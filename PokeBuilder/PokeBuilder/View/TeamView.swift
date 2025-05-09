@@ -16,11 +16,12 @@ struct TeamView: View {
             VStack {
                 List {
                     ForEach($team.pokemon) { $pokemon in
-                        NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) { //Adding list_move as something that need to be passed
+                        NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) {
                             TeamMemberView(pokemon: $pokemon)
                         }
                         .listRowBackground(getBackground(type: pokemon.baseData.types[0]))
                     }
+                    .onDelete(perform: deletePokemon)
                 }
                 .scrollContentBackground(.hidden)
                                 
@@ -92,6 +93,13 @@ struct TeamView: View {
         default:
             return Color.gray
         }
+    }
+    
+    
+    
+    // Function to delete pokemon
+    func deletePokemon(at offsets: IndexSet) {
+        team.pokemon.remove(atOffsets: offsets)
     }
 }
 
