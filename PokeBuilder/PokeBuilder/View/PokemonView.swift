@@ -298,7 +298,8 @@ struct PokemonView: View {
     func typeDisplay(pos: Int, empty: String) -> String {
         let types = pokemon.baseData.types
         if types.count > pos {
-            return types[pos].name
+            let type = types[pos].name
+            return type.capitalized
         } else {
             return empty
         }
@@ -316,41 +317,41 @@ struct PokemonView: View {
     
     func displayTypeBackground(type: String) -> Color {
         switch type {
-        case "normal":
+        case "Normal":
             return Color(hex: 0xA8A77A)
-        case "fighting":
+        case "Fighting":
             return Color(hex: 0xC22E28)
-        case "flying":
+        case "Flying":
             return Color(hex: 0xA98FF3)
-        case "poison":
+        case "Poison":
             return Color(hex: 0xA33EA1)
-        case "ground":
+        case "Ground":
             return Color(hex: 0xE2BF65)
-        case "rock":
+        case "Rock":
             return Color(hex: 0xB6A136)
-        case "bug":
+        case "Bug":
             return Color(hex: 0xA6B91A)
-        case "steel":
+        case "Steel":
             return Color(hex: 0xB7B7CE)
-        case "ghost":
+        case "Ghost":
             return Color(hex: 0x735797)
-        case "fire":
+        case "Fire":
             return Color(hex: 0xEE8130)
-        case "water":
+        case "Water":
             return Color(hex: 0x6390F0)
-        case "grass":
+        case "Grass":
             return Color(hex: 0x7AC74C)
-        case "electric":
+        case "Electric":
             return Color(hex: 0xF7D02C)
-        case "psychic":
+        case "Psychic":
             return Color(hex: 0xF95587)
-        case "ice":
+        case "Ice":
             return Color(hex: 0x96D9D6)
-        case "dragon":
+        case "Dragon":
             return Color(hex: 0x6F35FC)
-        case "dark":
+        case "Dark":
             return Color(hex: 0x705746)
-        case "fairy":
+        case "Fairy":
             return Color(hex: 0xD685AD)
         default:
             return Color.gray
@@ -361,41 +362,41 @@ struct PokemonView: View {
     
     func getTypeForeColor(type: String) -> Color{
         switch type {
-        case "normal":
+        case "Normal":
             return Color.white
-        case "fighting":
+        case "Fighting":
             return Color.white
-        case "flying":
+        case "Flying":
             return Color.black
-        case "poison":
+        case "Poison":
             return Color.white
-        case "ground":
+        case "Ground":
             return Color.black
-        case "rock":
+        case "Rock":
             return Color.white
-        case "bug":
+        case "Bug":
             return Color.white
-        case "steel":
+        case "Steel":
             return Color.black
-        case "ghost":
+        case "Ghost":
             return Color.white
-        case "fire":
+        case "Fire":
             return Color.black
-        case "water":
+        case "Water":
             return Color.black
-        case "grass":
+        case "Grass":
             return Color.black
-        case "electric":
+        case "Electric":
             return Color.black
-        case "psychic":
+        case "Psychic":
             return Color.white
-        case "ice":
+        case "Ice":
             return Color.black
-        case "dragon":
+        case "Dragon":
             return Color.white
-        case "dark":
+        case "Dark":
             return Color.white
-        case "fairy":
+        case "Fairy":
             return Color.black
         default:
             return Color.black

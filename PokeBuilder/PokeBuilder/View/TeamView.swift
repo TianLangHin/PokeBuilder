@@ -115,6 +115,7 @@ struct TeamMemberView: View {
                 Text("\(pokemon.formatName())")
                     .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
             }
+            .padding(.trailing, -10)
             
             Spacer()
             
@@ -122,25 +123,34 @@ struct TeamMemberView: View {
                 HStack {
                     Text("\(typeDisplay(pos: 0, empty: "unknown"))")
                         .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                        .lineLimit(1)
+                        .frame(width: 60)
                     
                     Text("\(typeDisplay(pos: 1, empty: ""))")
                         .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                        .lineLimit(1)
+                        .frame(width: 60)
+                        
                 }
                 .padding()
                 Grid() {
                     GridRow {
                         Text("\(move1)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                            .frame(width: 60)
                         
                         Text("\(move2)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                            .frame(width: 60)
                     }
                     GridRow {
                         Text("\(move3)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                            .frame(width: 60)
                         
                         Text("\(move4)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
+                            .frame(width: 60)
                     }
                 }
             }
@@ -156,7 +166,8 @@ struct TeamMemberView: View {
     func typeDisplay(pos: Int, empty: String) -> String {
         let types = pokemon.baseData.types
         if types.count > pos {
-            return types[pos].name
+            let type = types[pos].name
+            return type.capitalized
         } else {
             return empty
         }
