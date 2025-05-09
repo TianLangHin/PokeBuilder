@@ -37,7 +37,7 @@ struct FuzzyFinderView: View {
                 }) {
                     HStack {
                         AsyncImage(url: getSpriteUrl(pokemon: pokemon))
-                        Text("\(pokemon)")
+                        Text("\(Pokemon.formatName(pokemonName: pokemon))")
                     }
                 }
             }

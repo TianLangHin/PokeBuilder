@@ -17,12 +17,23 @@ struct TeamListView: View {
         VStack {
             List {
                 ForEach(teamList.userTeams.indices, id: \.self) { index in
-                    NavigationLink(destination: TeamView(team: $teamList.userTeams[index])) {
-                        LineupView(team: teamList.userTeams[index])
+                    Section(header: Text(teamList.userTeams[index].name)) {
+                        NavigationLink(destination: TeamView(team: $teamList.userTeams[index])) {
+                            HStack {
+                                ForEach(teamList.userTeams[index].pokemon) { pokemon in
+                                    AsyncImage(url: pokemon.baseData.sprite) { image in
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                    } placeholder: {
+                                        LineupView(team: teamList.userTeams[index])
+                                    }
+                                }
+                            }
+                        }
                     }
                     .listRowBackground(index % 2 == 0 ? Color(hex: 0xFFC1C3) : Color(hex: 0xD1EDFF))
                 }
-            }
             .scrollContentBackground(.hidden)
                 
             Spacer()
