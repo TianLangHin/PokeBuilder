@@ -132,12 +132,12 @@ struct TeamMemberView: View {
                     Text("\(typeDisplay(pos: 0, empty: "unknown"))")
                         .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
                         .lineLimit(1)
-                        .frame(width: 60)
+                        .frame(width: 70)
                     
                     Text("\(typeDisplay(pos: 1, empty: ""))")
                         .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
                         .lineLimit(1)
-                        .frame(width: 60)
+                        .frame(width: 70)
                         
                 }
                 .padding()
@@ -145,20 +145,20 @@ struct TeamMemberView: View {
                     GridRow {
                         Text("\(move1)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
-                            .frame(width: 60)
+                            .frame(width: 70)
                         
                         Text("\(move2)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
-                            .frame(width: 60)
+                            .frame(width: 70)
                     }
                     GridRow {
                         Text("\(move3)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
-                            .frame(width: 60)
+                            .frame(width: 70)
                         
                         Text("\(move4)")
                             .foregroundColor((getListForeColor(type: pokemon.baseData.types[0])))
-                            .frame(width: 60)
+                            .frame(width: 70)
                     }
                 }
             }
