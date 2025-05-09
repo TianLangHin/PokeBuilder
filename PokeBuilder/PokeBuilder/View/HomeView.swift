@@ -16,7 +16,7 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // Placeholder for background colour later
+                // This is the back ground color
                 VStack{
                     Color.red.frame(maxWidth: .infinity, maxHeight: .infinity)
                     Rectangle()
@@ -41,11 +41,11 @@ struct HomeView: View {
                     
                     NavigationLink(destination: TeamListView(teamList: teamList)) {
                         Text("View Teams")
-                        .font(.title)
-                        .frame(width: 180, height: 80)
-                        .cornerRadius(10)
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: 0x3b3b3b)))
-                        .foregroundColor(.white)
+                            .font(.title)
+                            .frame(width: 180, height: 80)
+                            .cornerRadius(10)
+                            .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: 0x3b3b3b)))
+                            .foregroundColor(.white)
                     }
                     Spacer()
                 }
