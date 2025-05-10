@@ -162,7 +162,11 @@ struct PokemonView: View {
                         .font(.title3)
                     Text("\(Int(total))")
                         .font(.title3)
-                        .foregroundStyle((Int(total) > 500) ? Color.red : Color.black)
+                        .foregroundColor(checkCurrentEV(stat: Int(total)))
+                    Image(systemName: extraEVText(stat: Int(total)))
+                        .renderingMode(.original)
+                        .symbolEffect(.bounce.up.wholeSymbol, options: .repeating)
+                        .foregroundStyle((extraEVText(stat: Int(total)) == "flame.fill") ? Color.orange : Color.yellow)
                 }
                 .padding()
                 
@@ -400,6 +404,26 @@ struct PokemonView: View {
             return Color.black
         default:
             return Color.black
+        }
+    }
+    
+    func checkCurrentEV(stat: Int) -> Color {
+        if stat <=  200 {
+            return Color.green
+        } else if stat <= 400 {
+            return Color.orange
+        } else {
+            return Color(hex: 0xF1B502)
+        }
+    }
+    
+    func extraEVText(stat: Int) -> String {
+        if stat <=  200 {
+            return "tree.fill"
+        } else if stat <= 400 {
+            return "flame.fill"
+        } else {
+            return "crown.fill"
         }
     }
 }

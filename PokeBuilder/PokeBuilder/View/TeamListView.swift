@@ -19,9 +19,7 @@ struct TeamListView: View {
             List {
                 ForEach($teamList.userTeams, id: \.id) { $team in
                     NavigationLink(destination: TeamView(team: $team)) {
-                        VStack {
-                            LineupView(team: team)
-                        }
+                        LineupView(team: team)
                     }
                     .listRowBackground(Color(hex: 0xFFADB0))
                 }
@@ -37,8 +35,6 @@ struct TeamListView: View {
                 
                 Spacer()
                 Button("Add Team", action: {
-                    // Some filtering can be done here to ensure
-                    // a non-blank name and a non-duplicate.
                     teamList.addTeam(name: newTeamName.trimmingCharacters(in: .whitespacesAndNewlines))
                     newTeamName = ""
                 })
@@ -84,64 +80,3 @@ struct LineupView: View {
     TeamListView(teamList: teamList)
 }
 
-
-
-//Note: Old list
-//            List {
-//                ForEach($teamList.userTeams) { $team in
-//                    NavigationLink(destination: TeamView(team: $team)) {
-//                        LineupView(team: team)
-//                    }
-//                    .listRowBackground((teamList.userTeams.count % 2 == 0) ? Color(hex: 0xFF7074) : Color.blue)
-//                }
-//            }
-//            .scrollContentBackground(.hidden)
-
-
-
-//ForEach(teamList.userTeams.indices, id: \.self) { index in
-//    NavigationLink(destination: TeamView(team: $teamList.userTeams[index])) {
-//        VStack{
-//            Text("\(teamList.userTeams[index].name)")
-//                .font(.title)
-//            
-//            GeometryReader { geometry in
-//                let availableWidth = geometry.size.width * 0.9
-//                let fixedSize = availableWidth / 6
-//                
-//                HStack {
-//                    ForEach(teamList.userTeams[index].pokemon) { pokemon in
-//                        AsyncImage(url: pokemon.baseData.sprite) { image in
-//                            image
-//                                .resizable()
-//                                .aspectRatio(contentMode: .fit)
-//                                .frame(width: fixedSize, height: fixedSize)
-//                        }  placeholder: {
-//                            LineupView(team: teamList.userTeams[index])
-//                        }
-//                    }
-//                }
-//                .padding(.top, (isPhone ? 0 : -15))
-//            }
-//        }
-//        .padding(.bottom, (isPhone ? 8 : 80))
-//   }
-//}
-
-
-
-
-
-//HStack {
-//    ForEach(teamList.userTeams[index].pokemon) { pokemon in
-//        AsyncImage(url: pokemon.baseData.sprite) { image in
-//            image
-//                .resizable()
-//                .aspectRatio(contentMode: .fit)
-//        
-//        }  placeholder: {
-//            LineupView(team: team)
-//        }
-//    }
-//}
-//.padding(.top, (isPhone ? 0 : -15))
