@@ -157,7 +157,7 @@ struct PokemonView: View {
                 }
                 .padding()
                 
-                HStack{
+                HStack {
                     Text("Effort Values: ")
                         .font(.title3)
                     Text("\(Int(total))")
@@ -165,7 +165,6 @@ struct PokemonView: View {
                         .foregroundColor(checkCurrentEV(stat: Int(total)))
                     Image(systemName: extraEVText(stat: Int(total)))
                         .renderingMode(.original)
-                        .symbolEffect(.bounce.up.wholeSymbol, options: .repeating)
                         .foregroundStyle((extraEVText(stat: Int(total)) == "flame.fill") ? Color.orange : Color.yellow)
                 }
                 .padding()
