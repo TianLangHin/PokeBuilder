@@ -104,12 +104,12 @@ struct PokemonView: View {
     func typeText(pos: Int) -> some View {
         Text("\(typeDisplay(pos: pos, empty: "unknown"))")
             .background(
-                (typeDisplay(pos: pos, empty: "").isEmpty)
+                typeDisplay(pos: pos, empty: "").isEmpty
                     ? Color.clear
                     : displayTypeBackground(type: typeDisplay(pos: pos, empty: ""))
             )
             .foregroundColor(
-                (typeDisplay(pos: pos, empty: "").isEmpty)
+                typeDisplay(pos: pos, empty: "").isEmpty
                     ? Color.clear
                     : getTypeForecolour(type: typeDisplay(pos: pos, empty: ""))
             )
@@ -172,13 +172,12 @@ struct PokemonView: View {
     }
 
     func statSlider(stat: Stat, binding: Binding<Double>, text: String, colour: Color) -> some View {
-        let statChange = getStat(stat: stat)
-        return VStack {
+        VStack {
             Text("\(text): \(pokemon.statSpread.getStat(stat: stat))")
                 .padding()
                 .foregroundColor(colour)
             Slider(value: binding, in: 0...255, step: 4)
-                .onChange(of: statChange) { prevValue, newValue in
+                .onChange(of: getStat(stat: stat)) { prevValue, newValue in
                     let newTotal = pokemon.statSpread.newTotal(change: stat, increment: Int(newValue))
                     if newTotal > StatSpread.maximumAllocation {
                         setStat(stat: stat, value: prevValue)
@@ -298,7 +297,7 @@ struct PokemonView: View {
     }
     
     func checkCurrentEV(stat: Int) -> Color {
-        if stat <=  200 {
+        if stat <= 200 {
             return Color.green
         } else if stat <= 400 {
             return Color.orange
@@ -308,7 +307,7 @@ struct PokemonView: View {
     }
     
     func extraEVText(stat: Int) -> String {
-        if stat <=  200 {
+        if stat <= 200 {
             return "tree.fill"
         } else if stat <= 400 {
             return "flame.fill"

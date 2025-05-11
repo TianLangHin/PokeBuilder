@@ -38,9 +38,8 @@ struct HomeView: View {
                             .font(.title)
                             .frame(width: 180, height: 80)
                             .cornerRadius(10)
-                            .background(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color(hex: 0x3b3b3b)))
+                            .background(RoundedRectangle(cornerRadius: 10)
+                                .fill(Color(hex: 0x3b3b3b)))
                             .foregroundColor(.white)
                     }
                     Spacer()
