@@ -24,7 +24,7 @@ struct PokemonView: View {
     @State var spd: Double = 0.0
     @State var spe: Double = 0.0
     
-    var total: Double{
+    var total: Double {
         hp + atk + def + spa + spd + spe
     }
 
@@ -38,125 +38,27 @@ struct PokemonView: View {
                         Text("\(pokemon.formatName())")
                             .font(.title)
                         HStack {
-                            Text("\(typeDisplay(pos: 0, empty: "unknown"))")
+                            typeText(pos: 0)
                                 .padding(5)
-                                .background(
-                                    (typeDisplay(pos: 0, empty: "").isEmpty) ?
-                                    Color.clear :
-                                    displayTypeBackground(type: typeDisplay(pos: 0, empty: ""))
-                                )
-                                .foregroundColor(
-                                    (typeDisplay(pos: 0, empty: "").isEmpty) ?
-                                    Color.clear :
-                                    getTypeForeColor(type: typeDisplay(pos: 0, empty: ""))
-                                )
-                                .cornerRadius(10)
-                                
-                            
-                            Text("\(typeDisplay(pos: 1, empty: ""))")
+                            typeText(pos: 1)
                                 .padding((typeDisplay(pos: 1, empty: "").isEmpty) ? 0 : 5)
-                                .background(
-                                    (typeDisplay(pos: 1, empty: "").isEmpty) ?
-                                    Color.clear :
-                                    displayTypeBackground(type: typeDisplay(pos: 1, empty: ""))
-                                )
-                                .foregroundColor(
-                                    (typeDisplay(pos: 1, empty: "").isEmpty) ?
-                                    Color.clear :
-                                    getTypeForeColor(type: typeDisplay(pos: 1, empty: ""))
-                                )
-                                .cornerRadius(10)
                         }
                     }
                 }
                 Grid() {
                     GridRow {
-                        // The first move picker
-                        HStack{
-                            Text("Move 1:")
-                            Picker("Move 1", selection: $selectMove1){
-                                ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.formatMove())").tag(move)
-                                }
-                            }
-                            .onChange(of: selectMove1){ oldValue, newMove in
-                                guard let selectedMove = newMove else { return }
-                                
-                                if (pokemon.chosenMoves.isEmpty){
-                                    pokemon.chosenMoves.append(selectedMove)
-                                } else {
-                                    pokemon.chosenMoves[0] = selectedMove
-                                }
-                            }
-                        }
-                        
+                        movePicker(pos: 1, binding: $selectMove1, value: selectMove1)
                         Spacer()
-                        
-                        //The second move picker
-                        HStack{
-                            Text("Move 2:")
-                            Picker("Move 2", selection: $selectMove2){
-                                ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.formatMove())").tag(move)
-                                }
-                            }
-                            .onChange(of: selectMove2){ oldValue, newMove in
-                                guard let selectedMove = newMove else { return }
-                                
-                                if !(pokemon.chosenMoves.count >= 2){
-                                    pokemon.chosenMoves.append(selectedMove)
-                                } else {
-                                    pokemon.chosenMoves[1] = selectedMove
-                                }
-                            }
-                        }
-                        
+                        movePicker(pos: 2, binding: $selectMove2, value: selectMove2)
                     }
                     GridRow {
-                        //Picker for move 3
-                        HStack{
-                            Text("Move 3:")
-                            Picker("Move 3", selection: $selectMove3){
-                                ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.formatMove())").tag(move)
-                                }
-                            }
-                            .onChange(of: selectMove3){ oldValue, newMove in
-                                guard let selectedMove = newMove else { return }
-                                
-                                if !(pokemon.chosenMoves.count >= 3){
-                                    pokemon.chosenMoves.append(selectedMove)
-                                } else {
-                                    pokemon.chosenMoves[2] = selectedMove
-                                }
-                            }
-                        }
-                        
+                        movePicker(pos: 3, binding: $selectMove3, value: selectMove3)
                         Spacer ()
-                        
-                        //Picker for move 4
-                        HStack{
-                            Text("Move 4:")
-                            Picker("Move 4", selection: $selectMove4){
-                                ForEach(listMove.sorted(), id: \.self) { move in
-                                    Text("\(move.formatMove())").tag(move)
-                                }
-                            }
-                            .onChange(of: selectMove4){ oldValue, newMove in
-                                guard let selectedMove = newMove else { return }
-                                
-                                if !(pokemon.chosenMoves.count >= 4){
-                                    pokemon.chosenMoves.append(selectedMove)
-                                } else {
-                                    pokemon.chosenMoves[3] = selectedMove
-                                }
-                            }
-                        }
+                        movePicker(pos: 4, binding: $selectMove4, value: selectMove4)
                     }
-                
                 }
                 .padding()
-                
+
                 HStack {
                     Text("Effort Values: ")
                         .font(.title3)
@@ -168,125 +70,27 @@ struct PokemonView: View {
                         .foregroundStyle((extraEVText(stat: Int(total)) == "flame.fill") ? Color.orange : Color.yellow)
                 }
                 .padding()
-                
+
                 Grid() {
                     GridRow {
-                        VStack {
-                            // Stat colour palette obtained from PokePaste
-                            Text("HP: \(pokemon.statSpread.hitPoints)")
-                                .padding()
-                                .foregroundColor(Color(hex: 0xFF0000))
-                            Slider(value: $hp, in: 0...255, step: 4)
-                                .onChange(of: hp) { prevValue, newValue in
-                                    let newTotal = pokemon.statSpread.newTotal(change: .hp(Int(newValue)))
-                                    if newTotal > StatSpread.maximumAllocation {
-                                        hp = prevValue
-                                    } else {
-                                        pokemon.statSpread.hitPoints = Int(newValue)
-                                    }
-                                }
-                                .onAppear(perform: {
-                                    hp = Double(pokemon.statSpread.hitPoints)
-                                })
-                        }
-                        VStack {
-                            Text("SpA: \(pokemon.statSpread.specialAttack)")
-                                .padding()
-                                .foregroundColor(Color(hex: 0x6890F0))
-                            Slider(value: $spa, in: 0...255, step: 4)
-                                .onChange(of: spa) { prevValue, newValue in
-                                    let newTotal = pokemon.statSpread.newTotal(change: .spa(Int(newValue)))
-                                    if newTotal > StatSpread.maximumAllocation {
-                                        spa = prevValue
-                                    } else {
-                                        pokemon.statSpread.specialAttack = Int(newValue)
-                                    }
-                                }
-                                .onAppear(perform: {
-                                    spa = Double(pokemon.statSpread.specialAttack)
-                                })
-                        }
+                        statSlider(stat: .hp, binding: $hp, text: "HP", colour: Color(hex: 0xFF0000))
+                        statSlider(stat: .spa, binding: $spa, text: "SpA", colour: Color(hex: 0x6890F0))
                     }
                     GridRow {
-                        VStack {
-                            Text("Atk: \(pokemon.statSpread.attack)")
-                                .padding()
-                                .foregroundColor(Color(hex: 0xF08030))
-                            Slider(value: $atk, in: 0...255, step: 4)
-                                .onChange(of: atk) { prevValue, newValue in
-                                    let newTotal = pokemon.statSpread.newTotal(change: .atk(Int(newValue)))
-                                    if newTotal > StatSpread.maximumAllocation {
-                                        atk = prevValue
-                                    } else {
-                                        pokemon.statSpread.attack = Int(newValue)
-                                    }
-                                }
-                                .onAppear(perform: {
-                                    atk = Double(pokemon.statSpread.attack)
-                                })
-                        }
-                        VStack {
-                            Text("SpD: \(pokemon.statSpread.specialDefense)")
-                                .padding()
-                                .foregroundColor(Color(hex: 0x78C850))
-                            Slider(value: $spd, in: 0...255, step: 4)
-                                .onChange(of: spd) { prevValue, newValue in
-                                    let newTotal = pokemon.statSpread.newTotal(change: .spd(Int(newValue)))
-                                    if newTotal > StatSpread.maximumAllocation {
-                                        spd = prevValue
-                                    } else {
-                                        pokemon.statSpread.specialDefense = Int(newValue)
-                                    }
-                                }
-                                .onAppear(perform: {
-                                    spd = Double(pokemon.statSpread.specialDefense)
-                                })
-                        }
+                        statSlider(stat: .atk, binding: $atk, text: "Atk", colour: Color(hex: 0xF08030))
+                        statSlider(stat: .spd, binding: $spd, text: "SpD", colour: Color(hex: 0x78C850))
                     }
                     GridRow {
-                        VStack {
-                            Text("Def: \(pokemon.statSpread.defense)")
-                                .padding()
-                                .foregroundColor(Color(hex: 0xF8D030))
-                            Slider(value: $def, in: 0...255, step: 4)
-                                .onChange(of: def) { prevValue, newValue in
-                                    let newTotal = pokemon.statSpread.newTotal(change: .def(Int(newValue)))
-                                    if newTotal > StatSpread.maximumAllocation {
-                                        def = prevValue
-                                    } else {
-                                        pokemon.statSpread.defense = Int(newValue)
-                                    }
-                                }
-                                .onAppear(perform: {
-                                    def = Double(pokemon.statSpread.defense)
-                                })
-                        }
-                        VStack {
-                            Text("Spe: \(pokemon.statSpread.speed)")
-                                .padding()
-                                .foregroundColor(Color(hex: 0xF85888))
-                            Slider(value: $spe, in: 0...255, step: 4)
-                                .onChange(of: spe) { prevValue, newValue in
-                                    let newTotal = pokemon.statSpread.newTotal(change: .spe(Int(newValue)))
-                                    if newTotal > StatSpread.maximumAllocation {
-                                        spe = prevValue
-                                    } else {
-                                        pokemon.statSpread.speed = Int(newValue)
-                                    }
-                                }
-                                .onAppear(perform: {
-                                    spe = Double(pokemon.statSpread.speed)
-                                })
-                        }
+                        statSlider(stat: .def, binding: $def, text: "Def", colour: Color(hex: 0xF8D030))
+                        statSlider(stat: .spe, binding: $spe, text: "Spe", colour: Color(hex: 0xF85888))
                     }
                 }
             }
         }
-        //Initial value for the pokemon moves and the pokemon list:
-        .onAppear(){
-            listMove = pokemon.baseData.moves
-            if pokemon.chosenMoves.isEmpty{
-                for _ in 0..<4{
+        .onAppear() {
+            // Initial value for the pokemon moves and the pokemon list:
+            if pokemon.chosenMoves.isEmpty {
+                for _ in 0..<4 {
                     pokemon.chosenMoves.append(PokemonMove(name: "None", url: nil))
                 }
             }
@@ -297,6 +101,96 @@ struct PokemonView: View {
         }
     }
 
+    func typeText(pos: Int) -> some View {
+        Text("\(typeDisplay(pos: pos, empty: "unknown"))")
+            .background(
+                (typeDisplay(pos: pos, empty: "").isEmpty)
+                    ? Color.clear
+                    : displayTypeBackground(type: typeDisplay(pos: pos, empty: ""))
+            )
+            .foregroundColor(
+                (typeDisplay(pos: pos, empty: "").isEmpty)
+                    ? Color.clear
+                    : getTypeForecolour(type: typeDisplay(pos: pos, empty: ""))
+            )
+            .cornerRadius(10)
+    }
+
+    func movePicker(pos: Int, binding: Binding<PokemonMove?>, value: PokemonMove?) -> some View {
+        HStack {
+            Text("Move \(pos):")
+            Picker("Move \(pos)", selection: binding){
+                ForEach(listMove.sorted(), id: \.self) { move in
+                    Text("\(move.formatMove())").tag(move)
+                }
+            }
+            .onChange(of: value) { oldValue, newMove in
+                guard let selectedMove = newMove else {
+                    return
+                }
+                if pokemon.chosenMoves.count < pos {
+                    pokemon.chosenMoves.append(selectedMove)
+                } else {
+                    pokemon.chosenMoves[pos - 1] = selectedMove
+                }
+            }
+        }
+    }
+
+    func getStat(stat: Stat) -> Double {
+        switch stat {
+        case .hp:
+            hp
+        case .atk:
+            atk
+        case .def:
+            def
+        case .spa:
+            spa
+        case .spd:
+            spd
+        case .spe:
+            spe
+        }
+    }
+
+    func setStat(stat: Stat, value: Double) {
+        switch stat {
+        case .hp:
+            hp = value
+        case .atk:
+            atk = value
+        case .def:
+            def = value
+        case .spa:
+            spa = value
+        case .spd:
+            spd = value
+        case .spe:
+            spe = value
+        }
+    }
+
+    func statSlider(stat: Stat, binding: Binding<Double>, text: String, colour: Color) -> some View {
+        let statChange = getStat(stat: stat)
+        return VStack {
+            Text("\(text): \(pokemon.statSpread.getStat(stat: stat))")
+                .padding()
+                .foregroundColor(colour)
+            Slider(value: binding, in: 0...255, step: 4)
+                .onChange(of: statChange) { prevValue, newValue in
+                    let newTotal = pokemon.statSpread.newTotal(change: stat, increment: Int(newValue))
+                    if newTotal > StatSpread.maximumAllocation {
+                        setStat(stat: stat, value: prevValue)
+                    } else {
+                        pokemon.statSpread.setStat(stat: stat, value: Int(newValue))
+                    }
+                }
+                .onAppear(perform: {
+                    setStat(stat: stat, value: Double(pokemon.statSpread.getStat(stat: stat)))
+                })
+        }
+    }
 
     func typeDisplay(pos: Int, empty: String) -> String {
         let types = pokemon.baseData.types
@@ -316,7 +210,6 @@ struct PokemonView: View {
             return "Move \(pos + 1)"
         }
     }
-    
     
     func displayTypeBackground(type: String) -> Color {
         switch type {
@@ -360,10 +253,8 @@ struct PokemonView: View {
             return Color.gray
         }
     }
-    
-    
-    
-    func getTypeForeColor(type: String) -> Color{
+
+    func getTypeForecolour(type: String) -> Color {
         switch type {
         case "Normal":
             return Color.white

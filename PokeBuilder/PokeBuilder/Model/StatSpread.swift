@@ -24,31 +24,65 @@ struct StatSpread {
         let lastThree = self.specialAttack + self.specialDefense + self.speed
         return firstThree + lastThree
     }
-
-    func newTotal(change: StatChange) -> Int {
+    
+    func newTotal(change: Stat, increment: Int) -> Int {
         let total = currentTotal()
         switch change {
-        case let .hp(increment):
+        case .hp:
             return total - self.hitPoints + increment
-        case let .atk(increment):
+        case .atk:
             return total - self.attack + increment
-        case let .def(increment):
+        case .def:
             return total - self.defense + increment
-        case let .spa(increment):
+        case .spa:
             return total - self.specialAttack + increment
-        case let .spd(increment):
+        case .spd:
             return total - self.specialDefense + increment
-        case let .spe(increment):
+        case .spe:
             return total - self.speed + increment
         }
     }
+    
+    func getStat(stat: Stat) -> Int {
+        switch stat {
+        case .hp:
+            return self.hitPoints
+        case .atk:
+            return self.attack
+        case .def:
+            return self.defense
+        case .spa:
+            return self.specialAttack
+        case .spd:
+            return self.specialDefense
+        case .spe:
+            return self.speed
+        }
+    }
+    
+    mutating func setStat(stat: Stat, value: Int) {
+        switch stat {
+        case .hp:
+            self.hitPoints = value
+        case .atk:
+            self.attack = value
+        case .def:
+            self.defense = value
+        case .spa:
+            self.specialAttack = value
+        case .spd:
+            self.specialDefense = value
+        case .spe:
+            self.speed = value
+        }
+    }   
 }
 
-enum StatChange {
-    case hp(Int)
-    case atk(Int)
-    case def(Int)
-    case spa(Int)
-    case spd(Int)
-    case spe(Int)
+enum Stat {
+    case hp
+    case atk
+    case def
+    case spa
+    case spd
+    case spe
 }
