@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct FuzzyFinderView: View {
-    
+
     @StateObject var fuzzyFinder = FuzzyFinderViewModel()
     @StateObject var pokemonLoader = PokemonLoaderViewModel()
     @Binding var team: Team
 
     @Environment(\.dismiss) var dismiss
     @State var query = ""
-    
+
     var body: some View {
         VStack {
             TextField("Search here", text: $query)

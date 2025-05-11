@@ -16,35 +16,31 @@ struct HomeView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                // This is the back ground color
-                VStack{
+                VStack {
                     Color.red.frame(maxWidth: .infinity, maxHeight: .infinity)
                     Rectangle()
                         .frame(height: 10)
                         .padding(.top, -10)
-                    
                     Color.white.frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .ignoresSafeArea()
-            
-            
+
                 VStack {
                     Spacer()
                     Text("PokéBuilder")
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
-                    
-                    
                     Spacer()
                         .frame(height: 100)
-                    
                     NavigationLink(destination: TeamListView(teamList: teamList)) {
                         Text("View Teams")
                             .font(.title)
                             .frame(width: 180, height: 80)
                             .cornerRadius(10)
-                            .background(RoundedRectangle(cornerRadius: 10).fill(Color(hex: 0x3b3b3b)))
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color(hex: 0x3b3b3b)))
                             .foregroundColor(.white)
                     }
                     Spacer()

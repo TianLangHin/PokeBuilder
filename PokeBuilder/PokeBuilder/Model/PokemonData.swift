@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-// PokemonData(name: "hello", sprite: nil, moves: [], types: [], stats: [])
+
 struct PokemonData: Decodable {
     let name: String
     let sprite: URL?
@@ -68,9 +68,4 @@ private struct PokemonMoveWrapper: Codable {
 
 private struct PokemonTypeWrapper: Codable {
     let type: PokemonType
-}
-
-struct PokemonType: Codable {
-    let name: String
-    let url: URL?
 }

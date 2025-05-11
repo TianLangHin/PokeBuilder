@@ -10,6 +10,7 @@ import SwiftUI
 struct TeamListView: View {
 
     @ObservedObject var teamList: TeamListViewModel
+
     @State var newTeamName = ""
     
     var isPhone = (UIDevice.current.userInterfaceIdiom == .phone)
@@ -32,7 +33,6 @@ struct TeamListView: View {
             HStack {
                 TextField("New Team Name", text: $newTeamName)
                     .autocorrectionDisabled(true)
-                
                 Spacer()
                 Button("Add Team", action: {
                     teamList.addTeam(name: newTeamName.trimmingCharacters(in: .whitespacesAndNewlines))
@@ -54,10 +54,6 @@ struct TeamListView: View {
     }
 }
 
-
-
-
-
 struct LineupView: View {
 
     @State var team: Team
@@ -74,9 +70,7 @@ struct LineupView: View {
     }
 }
 
-
-#Preview{
+#Preview {
     @Previewable @State var teamList: TeamListViewModel = .init()
     TeamListView(teamList: teamList)
 }
-
