@@ -23,9 +23,9 @@ struct PokemonView: View {
     @State var spa: Double = 0.0
     @State var spd: Double = 0.0
     @State var spe: Double = 0.0
-    
-    var total: Double {
-        hp + atk + def + spa + spd + spe
+
+    var statTotal: Int {
+        pokemon.statSpread.currentTotal()
     }
 
     var body: some View {
@@ -39,9 +39,7 @@ struct PokemonView: View {
                             .font(.title)
                         HStack {
                             typeText(pos: 0)
-                                .padding(5)
                             typeText(pos: 1)
-                                .padding((typeDisplay(pos: 1, empty: "").isEmpty) ? 0 : 5)
                         }
                     }
                 }
@@ -62,12 +60,12 @@ struct PokemonView: View {
                 HStack {
                     Text("Effort Values: ")
                         .font(.title3)
-                    Text("\(Int(total))")
+                    Text("\(statTotal)")
                         .font(.title3)
-                        .foregroundColor(checkCurrentEV(stat: Int(total)))
-                    Image(systemName: extraEVText(stat: Int(total)))
+                        .foregroundColor(checkCurrentEV(stat: statTotal))
+                    Image(systemName: extraEVText(stat: statTotal))
                         .renderingMode(.original)
-                        .foregroundStyle((extraEVText(stat: Int(total)) == "flame.fill") ? Color.orange : Color.yellow)
+                        .foregroundStyle((extraEVText(stat: statTotal) == "flame.fill") ? Color.orange : Color.yellow)
                 }
                 .padding()
 
@@ -103,6 +101,7 @@ struct PokemonView: View {
 
     func typeText(pos: Int) -> some View {
         Text("\(typeDisplay(pos: pos, empty: "unknown"))")
+            .padding(pos == 0 ? 5 : typeDisplay(pos: 1, empty: "").isEmpty ? 0 : 5)
             .background(
                 typeDisplay(pos: pos, empty: "").isEmpty
                     ? Color.clear

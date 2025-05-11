@@ -90,33 +90,23 @@ struct TeamMemberView: View {
                 }
                 .padding()
 
-                Grid() {
-                    GridRow {
-                        Text("\(move1)")
-                            .foregroundColor(overallForegroundColour())
-                            .frame(width: 70)
-                        
-                        Text("\(move2)")
-                            .foregroundColor(overallForegroundColour())
-                            .frame(width: 70)
-                    }
-                    GridRow {
-                        Text("\(move3)")
-                            .foregroundColor(overallForegroundColour())
-                            .frame(width: 70)
-                        
-                        Text("\(move4)")
-                            .foregroundColor(overallForegroundColour())
-                            .frame(width: 70)
-                    }
+                VStack {
+                    Text("\(move1)")
+                        .foregroundColor(overallForegroundColour())
+                    Text("\(move2)")
+                        .foregroundColor(overallForegroundColour())
+                    Text("\(move3)")
+                        .foregroundColor(overallForegroundColour())
+                    Text("\(move4)")
+                        .foregroundColor(overallForegroundColour())
                 }
             }
         }
         .onAppear() {
-            move1 = moveDisplay(pos: 0, empty: "None")
-            move2 = moveDisplay(pos: 1, empty: "None")
-            move3 = moveDisplay(pos: 2, empty: "None")
-            move4 = moveDisplay(pos: 3, empty: "None")
+            move1 = moveDisplay(pos: 0, empty: "")
+            move2 = moveDisplay(pos: 1, empty: "")
+            move3 = moveDisplay(pos: 2, empty: "")
+            move4 = moveDisplay(pos: 3, empty: "")
         }
     }
 
