@@ -9,7 +9,7 @@ import SwiftUI
 
 class TeamListViewModel: ObservableObject, Observable {
     @Published var userTeams: [Team] = []
-    
+
     func removeTeam(team: Team) {
         guard let index = userTeams.firstIndex(where: {$0.id == team.id}) else {
             return
@@ -17,24 +17,16 @@ class TeamListViewModel: ObservableObject, Observable {
         self.userTeams[index].clear()
         self.userTeams.remove(at: index)
     }
-    
-    
+
     func addTeam(name: String) {
         let newTeam = Team(name: name)
         userTeams.append(newTeam)
     }
-    
-    
+
     func duplicateCheck(name: String) -> Bool {
-        for team in userTeams {
-            if team.name == name {
-                return true
-            }
-        }
-        return false
+        return userTeams.map({$0.name}).contains(name)
     }
-    
-    
+
     func deleteTeam(at offsets: IndexSet) {
         userTeams.remove(atOffsets: offsets)
     }

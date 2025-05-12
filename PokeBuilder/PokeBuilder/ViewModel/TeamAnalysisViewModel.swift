@@ -75,12 +75,12 @@ class TeamAnalysisViewModel: ObservableObject, Observable {
         "bug", "steel", "ghost", "fire", "water", "grass",
         "electric", "psychic", "ice", "dragon", "dark", "fairy"
     ]
-    
+
     private var hasPrepared = false
     var typeMatchups: [String: TypeInfo] = [:]
-    
+
     let jsonDecoder = JSONDecoder()
-    
+
     func prepareTable() async {
         if !hasPrepared {
             for typeName in TeamAnalysisViewModel.typeNames {
@@ -96,7 +96,7 @@ class TeamAnalysisViewModel: ObservableObject, Observable {
             hasPrepared = true
         }
     }
-    
+
     func defensiveCoverage(team: Team) -> [String: Int] {
         var teamDefense: [String: Int] = [:]
         for typeName in TeamAnalysisViewModel.typeNames {
@@ -144,14 +144,13 @@ class TeamAnalysisViewModel: ObservableObject, Observable {
                         continue
                     }
                     let relation = typeMatchups[typeName]?.getDefensiveRelation(to: moveData.type.name)
-                    let score: Int
-                    switch relation {
+                    let score = switch relation {
                     case .normal, nil:
-                        score = 0
+                        0
                     case .half, .immune:
-                        score = -1
+                        -1
                     case .double:
-                        score = 1
+                        1
                     }
                     teamOffense[typeName] = (teamOffense[typeName] ?? 0) + score
                 }

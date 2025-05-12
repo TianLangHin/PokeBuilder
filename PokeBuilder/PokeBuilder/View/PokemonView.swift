@@ -10,7 +10,7 @@ import SwiftUI
 struct PokemonView: View {
 
     @Binding var pokemon: Pokemon
-    
+
     @State var selectMove1: PokemonMove?
     @State var selectMove2: PokemonMove?
     @State var selectMove3: PokemonMove?
@@ -38,8 +38,8 @@ struct PokemonView: View {
                         Text("\(pokemon.formatName())")
                             .font(.title)
                         HStack {
-                            typeText(pos: 0)
-                            typeText(pos: 1)
+                            typeDisplay(pos: 0)
+                            typeDisplay(pos: 1)
                         }
                     }
                 }
@@ -65,7 +65,7 @@ struct PokemonView: View {
                         .foregroundColor(checkCurrentEV(stat: statTotal))
                     Image(systemName: extraEVText(stat: statTotal))
                         .renderingMode(.original)
-                        .foregroundStyle((extraEVText(stat: statTotal) == "flame.fill") ? Color.orange : Color.yellow)
+                        .foregroundStyle(extraEVText(stat: statTotal) == "flame.fill" ? Color.orange : Color.yellow)
                 }
                 .padding()
 
@@ -99,18 +99,18 @@ struct PokemonView: View {
         }
     }
 
-    func typeText(pos: Int) -> some View {
-        Text("\(typeDisplay(pos: pos, empty: "unknown"))")
-            .padding(pos == 0 ? 5 : typeDisplay(pos: 1, empty: "").isEmpty ? 0 : 5)
+    func typeDisplay(pos: Int) -> some View {
+        Text("\(typeText(pos: pos, empty: "unknown"))")
+            .padding(pos == 0 ? 5 : typeText(pos: 1, empty: "").isEmpty ? 0 : 5)
             .background(
-                typeDisplay(pos: pos, empty: "").isEmpty
+                typeText(pos: pos, empty: "").isEmpty
                     ? Color.clear
-                    : displayTypeBackground(type: typeDisplay(pos: pos, empty: ""))
+                    : displayTypeBackground(type: typeText(pos: pos, empty: ""))
             )
             .foregroundColor(
-                typeDisplay(pos: pos, empty: "").isEmpty
+                typeText(pos: pos, empty: "").isEmpty
                     ? Color.clear
-                    : getTypeForecolour(type: typeDisplay(pos: pos, empty: ""))
+                    : getTypeForecolour(type: typeText(pos: pos, empty: ""))
             )
             .cornerRadius(10)
     }
@@ -118,7 +118,7 @@ struct PokemonView: View {
     func movePicker(pos: Int, binding: Binding<PokemonMove?>, value: PokemonMove?) -> some View {
         HStack {
             Text("Move \(pos):")
-            Picker("Move \(pos)", selection: binding){
+            Picker("Move \(pos)", selection: binding) {
                 ForEach(listMove.sorted(), id: \.self) { move in
                     Text("\(move.formatMove())").tag(move)
                 }
@@ -190,7 +190,7 @@ struct PokemonView: View {
         }
     }
 
-    func typeDisplay(pos: Int, empty: String) -> String {
+    func typeText(pos: Int, empty: String) -> String {
         let types = pokemon.baseData.types
         if types.count > pos {
             let type = types[pos].name
@@ -200,7 +200,7 @@ struct PokemonView: View {
         }
     }
 
-    func moveDisplay(pos: Int) -> String {
+    func moveText(pos: Int) -> String {
         let moves = pokemon.chosenMoves
         if moves.count > pos {
             return moves[pos].name
