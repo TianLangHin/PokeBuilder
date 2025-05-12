@@ -7,16 +7,20 @@
 
 import SwiftUI
 
+// This is the main view containing all information when viewing a specific team
+// (that is, when the team is selected from the parent view).
 struct TeamView: View {
 
+    // The team being dealt with here is passed by the parent view.
     @Binding var team: Team
 
     var body: some View {
         VStack {
+            // First, the main view shows a scrollable list of all Pokemon in the team.
             VStack {
                 List {
                     ForEach($team.pokemon) { $pokemon in
-                        NavigationLink(destination: PokemonView(pokemon: $pokemon, listMove: pokemon.baseData.moves)) {
+                        NavigationLink(destination: PokemonView(pokemon: $pokemon, moveList: pokemon.baseData.moves)) {
                             TeamMemberView(pokemon: $pokemon)
                         }
                         .listRowBackground(pokemon.baseData.types[0].getBackgroundColour())
@@ -24,15 +28,20 @@ struct TeamView: View {
                     .onDelete(perform: deletePokemon)
                 }
                 .scrollContentBackground(.hidden)
-                                
             }
+
             Spacer()
+
+            // At the bottom of the screen, we provide two functionalities:
+            // One for a moving to the team analysis page, and one for adding a new Pokemon.
+            // The `New Pokemon` button will disappear if the maximum team size has been reached.
             HStack {
                 NavigationLink(destination: AnalysisView(team: team)) {
                     Text("Analyse Team")
                 }
                 Spacer()
                 if team.pokemon.count < Team.maximumPokemon {
+                    // If a new Pokemon can be added, this will redirect to the page with a Pokemon finder.
                     NavigationLink(destination: FuzzyFinderView(team: $team)) {
                         Text("Add Pokemon")
                     }
@@ -49,16 +58,18 @@ struct TeamView: View {
         }
     }
 
-    // Function to delete pokemon
+    // Callback to delete Pokemon when swiped in the main list body.
     func deletePokemon(at offsets: IndexSet) {
         team.pokemon.remove(atOffsets: offsets)
     }
 }
 
-// Need to find a way to dynamically refresh each item in the list to make the move appear when clicking `back`
+// This represents a single Pokemon inside the team.
+// Upfront, it will show a Pokemon's name, sprite, types and selected moveset.
 struct TeamMemberView: View {
     @Binding var pokemon: Pokemon
 
+    // Initialised with defaults since it is not passed in externally.
     @State var move1: String = ""
     @State var move2: String = ""
     @State var move3: String = ""
@@ -66,24 +77,26 @@ struct TeamMemberView: View {
 
     var body: some View {
         HStack {
+            // Firstly, on the left, show the sprite and the Pokemon name.
             VStack {
                 AsyncImage(url: pokemon.baseData.sprite)
                     .padding()
                 Text("\(pokemon.formatName())")
-                    .foregroundColor(pokemon.baseData.types[0].getForegroundColour())
+                    .foregroundColor(overallForegroundColour())
             }
             .padding(.trailing, -10)
 
             Spacer()
 
+            // Then, on the right, show the typings and the moves selected.
             VStack {
                 HStack {
-                    Text("\(typeDisplay(pos: 0, empty: "unknown"))")
+                    Text("\(typeText(pos: 0, empty: "unknown"))")
                         .foregroundColor(overallForegroundColour())
                         .lineLimit(1)
                         .frame(width: 70)
-                    
-                    Text("\(typeDisplay(pos: 1, empty: ""))")
+
+                    Text("\(typeText(pos: 1, empty: ""))")
                         .foregroundColor(overallForegroundColour())
                         .lineLimit(1)
                         .frame(width: 70)
@@ -104,18 +117,24 @@ struct TeamMemberView: View {
             }
         }
         .onAppear() {
-            move1 = moveDisplay(pos: 0, empty: "None")
-            move2 = moveDisplay(pos: 1, empty: "None")
-            move3 = moveDisplay(pos: 2, empty: "None")
-            move4 = moveDisplay(pos: 3, empty: "None")
+            // When the view is first loaded, the Pokemon moves are
+            // loaded to synchronise with the true data.
+            move1 = moveText(pos: 0, empty: "None")
+            move2 = moveText(pos: 1, empty: "None")
+            move3 = moveText(pos: 2, empty: "None")
+            move4 = moveText(pos: 3, empty: "None")
         }
     }
 
+    // Convenience function to load the correct foreground colour for all text
+    // in the LineupView, matching with its primary type background colour.
     func overallForegroundColour() -> Color {
         return pokemon.baseData.types[0].getForegroundColour()
     }
 
-    func typeDisplay(pos: Int, empty: String) -> String {
+    // Utility functions for getting a neat expression for the Pokemon typing and move text.
+
+    func typeText(pos: Int, empty: String) -> String {
         let types = pokemon.baseData.types
         if types.count > pos {
             let type = types[pos].name
@@ -125,7 +144,7 @@ struct TeamMemberView: View {
         }
     }
 
-    func moveDisplay(pos: Int, empty: String) -> String {
+    func moveText(pos: Int, empty: String) -> String {
         let moves = pokemon.chosenMoves
         if moves.count > pos {
             return moves[pos].formatMove()

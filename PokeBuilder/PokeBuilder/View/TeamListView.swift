@@ -9,12 +9,12 @@ import SwiftUI
 
 struct TeamListView: View {
 
+    // The team list ViewModel is being passed as an argument from the parent view.
     @ObservedObject var teamList: TeamListViewModel
 
+    // State to store the name of a new team being created.
     @State var newTeamName = ""
-    
-    var isPhone = (UIDevice.current.userInterfaceIdiom == .phone)
-    
+
     var body: some View {
         VStack {
             List {
@@ -27,20 +27,22 @@ struct TeamListView: View {
                 .onDelete(perform: teamList.deleteTeam)
             }
             .scrollContentBackground(.hidden)
-                
+
             Spacer()
-            
+
             HStack {
                 TextField("New Team Name", text: $newTeamName)
                     .autocorrectionDisabled(true)
                 Spacer()
                 Button("Add Team", action: {
+                    // When a team is added, we trim whitespace for intuitive bookkeeping.
                     teamList.addTeam(name: newTeamName.trimmingCharacters(in: .whitespacesAndNewlines))
                     newTeamName = ""
                 })
                 .padding()
                 .buttonStyle(.borderedProminent)
                 .disabled(newTeamName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || teamList.duplicateCheck(name: newTeamName))
+                // We also disable duplicate team names, hence the last line here.
             }
         }
         .padding()
@@ -54,6 +56,7 @@ struct TeamListView: View {
     }
 }
 
+// This View represents a singular team in the team list.
 struct LineupView: View {
 
     @State var team: Team
@@ -65,7 +68,6 @@ struct LineupView: View {
                 .padding()
                 .foregroundColor(Color.black)
                 .fontWeight(.bold)
-                
         }
     }
 }

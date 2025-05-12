@@ -9,14 +9,24 @@ import SwiftUI
 
 struct PokemonView: View {
 
+    // The main source of data being edited by this View.
     @Binding var pokemon: Pokemon
 
+    // State regarding the 4 moves a Pokemon can learn.
+    // These first four states are automatically populated upon loading.
     @State var selectMove1: PokemonMove?
     @State var selectMove2: PokemonMove?
     @State var selectMove3: PokemonMove?
     @State var selectMove4: PokemonMove?
-    @State var listMove: [PokemonMove]
 
+    // This is the list of moves that the Pokemon has access to.
+    // (To be passed in as an argument)
+    @State var moveList: [PokemonMove]
+
+    // These variables are used to store the six stats of a Pokemon
+    // for easier retrieval and display in addition to the `pokemon`
+    // being edited. These are needed as a wrapper since Sliders
+    // only work with Doubles and not Ints.
     @State var hp: Double = 0.0
     @State var atk: Double = 0.0
     @State var def: Double = 0.0
@@ -24,6 +34,7 @@ struct PokemonView: View {
     @State var spd: Double = 0.0
     @State var spe: Double = 0.0
 
+    // For syntax simplification of retrieving the total number of EVs allocated.
     var statTotal: Int {
         pokemon.statSpread.currentTotal()
     }
@@ -32,6 +43,7 @@ struct PokemonView: View {
         ZStack {
             Color.white.ignoresSafeArea()
             VStack {
+                // Firstly, display the Pokemon sprite next to its name and typing.
                 HStack {
                     AsyncImage(url: pokemon.baseData.sprite)
                     VStack {
@@ -44,6 +56,8 @@ struct PokemonView: View {
                     }
                 }
 
+                // Below it, we show the actual stat points
+                // (as a result of EV spread and base stats).
                 Grid() {
                     GridRow {
                         Text("HP")
@@ -63,6 +77,8 @@ struct PokemonView: View {
                     }
                 }
 
+                // Then, we provide a move selector for each of the four moves
+                // the Pokemon can learn. The index conventions are from 1-4.
                 Grid() {
                     GridRow {
                         movePicker(pos: 1, binding: $selectMove1, value: selectMove1)
@@ -77,6 +93,8 @@ struct PokemonView: View {
                 }
                 .padding()
 
+                // Below that is the count of the total EVs allocated to provide
+                // an indicator of how much left we can allocate.
                 HStack {
                     Text("Effort Values: ")
                         .font(.title3)
@@ -89,6 +107,8 @@ struct PokemonView: View {
                 }
                 .padding()
 
+                // We then provide sliders for allocating EVs to each of the six stats,
+                // colour-coded according to the PokePaste colour palettes.
                 Grid() {
                     GridRow {
                         statSlider(stat: .hp, binding: $hp, text: "HP", colour: Color(hex: 0xFF0000))
@@ -106,12 +126,14 @@ struct PokemonView: View {
             }
         }
         .onAppear() {
-            // Initial value for the pokemon moves and the pokemon list:
+            // When initialised, a Pokemon move list will be empty.
+            // We then initialise all four slots with a "None" placeholder if this is the case.
             if pokemon.chosenMoves.isEmpty {
                 for _ in 0..<4 {
                     pokemon.chosenMoves.append(PokemonMove(name: "None", url: nil))
                 }
             }
+            // We then synchronise the states of each of the four move selections to the Pokemon data.
             selectMove1 = pokemon.chosenMoves[0]
             selectMove2 = pokemon.chosenMoves[1]
             selectMove3 = pokemon.chosenMoves[2]
@@ -119,43 +141,8 @@ struct PokemonView: View {
         }
     }
 
-    func typeDisplay(pos: Int) -> some View {
-        Text("\(typeText(pos: pos, empty: "unknown"))")
-            .padding(pos == 0 ? 5 : typeText(pos: 1, empty: "").isEmpty ? 0 : 5)
-            .background(
-                typeText(pos: pos, empty: "").isEmpty
-                    ? Color.clear
-                    : displayTypeBackground(type: typeText(pos: pos, empty: ""))
-            )
-            .foregroundColor(
-                typeText(pos: pos, empty: "").isEmpty
-                    ? Color.clear
-                    : getTypeForecolour(type: typeText(pos: pos, empty: ""))
-            )
-            .cornerRadius(10)
-    }
-
-    func movePicker(pos: Int, binding: Binding<PokemonMove?>, value: PokemonMove?) -> some View {
-        HStack {
-            Text("Move \(pos):")
-            Picker("Move \(pos)", selection: binding) {
-                ForEach(listMove.sorted(), id: \.self) { move in
-                    Text("\(move.formatMove())").tag(move)
-                }
-            }
-            .onChange(of: value) { oldValue, newMove in
-                guard let selectedMove = newMove else {
-                    return
-                }
-                if pokemon.chosenMoves.count < pos {
-                    pokemon.chosenMoves.append(selectedMove)
-                } else {
-                    pokemon.chosenMoves[pos - 1] = selectedMove
-                }
-            }
-        }
-    }
-
+    // Convenience functions to programmatically retrieve and
+    // edit the view's states relating to the Pokemon's stats.
     func getStat(stat: Stat) -> Double {
         switch stat {
         case .hp:
@@ -190,13 +177,60 @@ struct PokemonView: View {
         }
     }
 
+    // Convenience function to create a View component to display one of a Pokemon's types.
+    // Behaviour of the padding depends on whether this is the first (always existent) type
+    // or the second (possibly non-existent) type.
+    // The background and foreground colours are clear if it does not exist.
+    func typeDisplay(pos: Int) -> some View {
+        let type = getType(pos: pos)
+        let bgColour = type?.getBackgroundColour() ?? Color.clear
+        let fgColour = type?.getForegroundColour() ?? Color.clear
+
+        return Text("\(typeText(pos: pos, empty: "unknown"))")
+            .padding(pos == 0 ? 5 : getType(pos: 1) == nil ? 0 : 5)
+            .background(bgColour)
+            .foregroundColor(fgColour)
+            .cornerRadius(10)
+    }
+
+    // Given a certain binding to a PokemonMove, its value, and which position in the array
+    // it corresponds to, this function returns a View component that allows the user to select a move.
+    func movePicker(pos: Int, binding: Binding<PokemonMove?>, value: PokemonMove?) -> some View {
+        HStack {
+            Text("Move \(pos):")
+            Picker("Move \(pos)", selection: binding) {
+                ForEach(moveList.sorted(), id: \.self) { move in
+                    Text("\(move.formatMove())").tag(move)
+                }
+            }
+            .onChange(of: value) { oldValue, newMove in
+                guard let selectedMove = newMove else {
+                    return
+                }
+                if pokemon.chosenMoves.count < pos {
+                    pokemon.chosenMoves.append(selectedMove)
+                } else {
+                    // To allow for the convention of using 1-4 instead of 0-3.
+                    pokemon.chosenMoves[pos - 1] = selectedMove
+                }
+            }
+        }
+    }
+
+    // Using the programmatic approach of getting a binding or a value (`getStat` and `setStat`),
+    // this function returns a View component that provides the user a slider to allocate EVs
+    // to a Pokemon's specific stat, which is also governed by the maximum allocation of 510 EVs.
     func statSlider(stat: Stat, binding: Binding<Double>, text: String, colour: Color) -> some View {
         VStack {
             Text("\(text): \(pokemon.statSpread.getStat(stat: stat))")
                 .padding()
                 .foregroundColor(colour)
+            // A step of 4 is used here, since every 4 EV point is 1 stat point.
+            // (This is domain-specific logic.)
             Slider(value: binding, in: 0...255, step: 4)
                 .onChange(of: getStat(stat: stat)) { prevValue, newValue in
+                    // Upon every change in the slider, a callback is made to ensure
+                    // that the domain-specific invariant is upheld.
                     let newTotal = pokemon.statSpread.newTotal(change: stat, increment: Int(newValue))
                     if newTotal > StatSpread.maximumAllocation {
                         setStat(stat: stat, value: prevValue)
@@ -205,21 +239,30 @@ struct PokemonView: View {
                     }
                 }
                 .onAppear(perform: {
+                    // This is to synchronise the already allocated EVs upon loading an existing Pokemon.
                     setStat(stat: stat, value: Double(pokemon.statSpread.getStat(stat: stat)))
                 })
         }
     }
 
-    func typeText(pos: Int, empty: String) -> String {
+    // Convenience function to get a Pokemon type at a certain array index,
+    // returning `nil` if it does not exist.
+    func getType(pos: Int) -> PokemonType? {
         let types = pokemon.baseData.types
         if types.count > pos {
-            let type = types[pos].name
-            return type.capitalized
+            return types[pos]
         } else {
-            return empty
+            return nil
         }
     }
 
+    // Convenience function to get the text to display depending on if the Pokemon type exists.
+    func typeText(pos: Int, empty: String) -> String {
+        let type = getType(pos: pos)
+        return type?.capitalized ?? empty
+    }
+
+    // Convenience function to return either the name of a Pokemon move or a placeholder.
     func moveText(pos: Int) -> String {
         let moves = pokemon.chosenMoves
         if moves.count > pos {
@@ -228,93 +271,10 @@ struct PokemonView: View {
             return "Move \(pos + 1)"
         }
     }
-    
-    func displayTypeBackground(type: String) -> Color {
-        switch type {
-        case "Normal":
-            return Color(hex: 0xA8A77A)
-        case "Fighting":
-            return Color(hex: 0xC22E28)
-        case "Flying":
-            return Color(hex: 0xA98FF3)
-        case "Poison":
-            return Color(hex: 0xA33EA1)
-        case "Ground":
-            return Color(hex: 0xE2BF65)
-        case "Rock":
-            return Color(hex: 0xB6A136)
-        case "Bug":
-            return Color(hex: 0xA6B91A)
-        case "Steel":
-            return Color(hex: 0xB7B7CE)
-        case "Ghost":
-            return Color(hex: 0x735797)
-        case "Fire":
-            return Color(hex: 0xEE8130)
-        case "Water":
-            return Color(hex: 0x6390F0)
-        case "Grass":
-            return Color(hex: 0x7AC74C)
-        case "Electric":
-            return Color(hex: 0xF7D02C)
-        case "Psychic":
-            return Color(hex: 0xF95587)
-        case "Ice":
-            return Color(hex: 0x96D9D6)
-        case "Dragon":
-            return Color(hex: 0x6F35FC)
-        case "Dark":
-            return Color(hex: 0x705746)
-        case "Fairy":
-            return Color(hex: 0xD685AD)
-        default:
-            return Color.gray
-        }
-    }
 
-    func getTypeForecolour(type: String) -> Color {
-        switch type {
-        case "Normal":
-            return Color.white
-        case "Fighting":
-            return Color.white
-        case "Flying":
-            return Color.black
-        case "Poison":
-            return Color.white
-        case "Ground":
-            return Color.black
-        case "Rock":
-            return Color.white
-        case "Bug":
-            return Color.white
-        case "Steel":
-            return Color.black
-        case "Ghost":
-            return Color.white
-        case "Fire":
-            return Color.black
-        case "Water":
-            return Color.black
-        case "Grass":
-            return Color.black
-        case "Electric":
-            return Color.black
-        case "Psychic":
-            return Color.white
-        case "Ice":
-            return Color.black
-        case "Dragon":
-            return Color.white
-        case "Dark":
-            return Color.white
-        case "Fairy":
-            return Color.black
-        default:
-            return Color.black
-        }
-    }
-    
+    // These next two functions are used to customise visual indicators of how much
+    // progression has been made in allocating EVs.
+
     func checkCurrentEV(stat: Int) -> Color {
         if stat <= 200 {
             return Color.green
@@ -324,7 +284,7 @@ struct PokemonView: View {
             return Color(hex: 0xF1B502)
         }
     }
-    
+
     func extraEVText(stat: Int) -> String {
         if stat <= 200 {
             return "tree.fill"
