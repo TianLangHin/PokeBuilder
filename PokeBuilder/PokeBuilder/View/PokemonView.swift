@@ -43,6 +43,26 @@ struct PokemonView: View {
                         }
                     }
                 }
+
+                Grid() {
+                    GridRow {
+                        Text("HP")
+                        Text("Atk")
+                        Text("Def")
+                        Text("SpA")
+                        Text("SpD")
+                        Text("Spe")
+                    }
+                    GridRow {
+                        Text("\(pokemon.actualStatPoint(stat: .hp))")
+                        Text("\(pokemon.actualStatPoint(stat: .atk))")
+                        Text("\(pokemon.actualStatPoint(stat: .def))")
+                        Text("\(pokemon.actualStatPoint(stat: .spa))")
+                        Text("\(pokemon.actualStatPoint(stat: .spd))")
+                        Text("\(pokemon.actualStatPoint(stat: .spe))")
+                    }
+                }
+
                 Grid() {
                     GridRow {
                         movePicker(pos: 1, binding: $selectMove1, value: selectMove1)

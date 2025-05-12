@@ -22,6 +22,19 @@ struct Pokemon: Identifiable {
     var chosenMoves = [PokemonMove]()
     var statSpread = StatSpread()
 
+    func actualStatPoint(stat: Stat) -> Int {
+        let effortValue = statSpread.getStat(stat: stat) / 4
+        let individualValue = 31
+        let baseStat = baseData.stats[stat.rawValue]
+        let level = 100
+        switch stat {
+        case .hp:
+            return 2 * baseStat + individualValue + effortValue + level + 10
+        default:
+            return 2 * baseStat + individualValue + effortValue + 5
+        }
+    }
+
     // Domain-specific logic to convert `kebab-case` API names to standard Pokemon names.
     // We provide both a static function that operates just on name strings
     // for external ViewModels to list readable Pokemon names when converted from `names.txt`.
