@@ -89,6 +89,7 @@ struct TeamMemberView: View {
                         .frame(width: 70)
                 }
                 .padding()
+                .padding(.bottom, -10)
 
                 VStack {
                     Text("\(move1)")
@@ -103,10 +104,10 @@ struct TeamMemberView: View {
             }
         }
         .onAppear() {
-            move1 = moveDisplay(pos: 0, empty: "")
-            move2 = moveDisplay(pos: 1, empty: "")
-            move3 = moveDisplay(pos: 2, empty: "")
-            move4 = moveDisplay(pos: 3, empty: "")
+            move1 = moveDisplay(pos: 0, empty: "None")
+            move2 = moveDisplay(pos: 1, empty: "None")
+            move3 = moveDisplay(pos: 2, empty: "None")
+            move4 = moveDisplay(pos: 3, empty: "None")
         }
     }
 
