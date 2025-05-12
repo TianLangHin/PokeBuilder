@@ -9,13 +9,16 @@ import SwiftUI
 
 struct HomeView: View {
 
+    // The ViewModel handling the list of teams is initialised here
+    // so that the entire app can access it.
     @StateObject var teamList = TeamListViewModel()
 
-    @State var query = ""
-
     var body: some View {
+        // A NavigationStack is used to automatically implement backward navigation
+        // since that is always a desirable feature according to our app logic.
         NavigationStack {
             ZStack {
+                // PokeBall design for the title page.
                 VStack {
                     Color.red.frame(maxWidth: .infinity, maxHeight: .infinity)
                     Rectangle()
@@ -31,8 +34,10 @@ struct HomeView: View {
                         .font(.largeTitle)
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
+
                     Spacer()
                         .frame(height: 100)
+
                     NavigationLink(destination: TeamListView(teamList: teamList)) {
                         Text("View Teams")
                             .font(.title)
@@ -44,7 +49,6 @@ struct HomeView: View {
                     }
                     Spacer()
                 }
-                
             }
         }
     }

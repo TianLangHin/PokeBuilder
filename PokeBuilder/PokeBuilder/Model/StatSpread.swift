@@ -71,6 +71,7 @@ struct StatSpread {
 // This enum is to enable the programmatic editing of stats,
 // alleviating any potential code duplication when
 // having multiple View elements that each edit one stat.
+// It also functions as an integer for indexing the base stats of a Pokemon.
 enum Stat: Int {
     case hp = 0
     case atk = 1

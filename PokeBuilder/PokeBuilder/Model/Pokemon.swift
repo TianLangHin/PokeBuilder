@@ -22,7 +22,11 @@ struct Pokemon: Identifiable {
     var chosenMoves = [PokemonMove]()
     var statSpread = StatSpread()
 
+    // This function returns the actual stat value of a Pokemon given their stat spread
+    // and their base stats (as contained in `baseData`).
+    // All stats are calculated according to a Level 100 maximum IV Pokemon.
     func actualStatPoint(stat: Stat) -> Int {
+        // Domain-specific calculations are used here (Generation 3 onwards).
         let effortValue = statSpread.getStat(stat: stat) / 4
         let individualValue = 31
         let baseStat = baseData.stats[stat.rawValue]
