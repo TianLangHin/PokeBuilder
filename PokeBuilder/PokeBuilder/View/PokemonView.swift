@@ -259,7 +259,7 @@ struct PokemonView: View {
     // Convenience function to get the text to display depending on if the Pokemon type exists.
     func typeText(pos: Int, empty: String) -> String {
         let type = getType(pos: pos)
-        return type?.capitalized ?? empty
+        return type?.name.capitalized ?? empty
     }
 
     // Convenience function to return either the name of a Pokemon move or a placeholder.

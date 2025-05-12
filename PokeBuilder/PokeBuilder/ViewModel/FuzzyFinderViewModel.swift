@@ -7,11 +7,17 @@
 
 import SwiftUI
 
+// This ViewModel handles the logic of conducting fuzzy-finding from a user to search
+// for a particular Pokemon.
 class FuzzyFinderViewModel: ObservableObject, Observable {
+
     @Published var pokemonNames: [String]
 
     init() {
+        // Upon initialisation, reads the `names.txt` files for all Pokemon name data
+        // instead of having to manually paginate through PokeAPI (very slow upon startup).
         self.pokemonNames = []
+        // If, however, the resource is unavailable, nothing can be loaded.
         guard let path = Bundle.main.path(forResource: "names", ofType: "txt") else {
             return
         }
@@ -21,6 +27,8 @@ class FuzzyFinderViewModel: ObservableObject, Observable {
         self.pokemonNames = data.components(separatedBy: "\n")
     }
 
+    // To get the corresponding number by which to query PokeAPI for a particular Pokemon,
+    // we get the Pokemon name's position within the `pokemonNames` array.
     func apiNumber(name: String) -> Int? {
         guard let arrayIndex = self.pokemonNames.firstIndex(of: name) else {
             return nil
@@ -30,8 +38,8 @@ class FuzzyFinderViewModel: ObservableObject, Observable {
 
     // For displaying a List that changes dynamically.
     func filterOnSubstring(query: String) -> [String] {
-        // Will potentially need normalisation here and account for
-        // difference between API format and human-readable format.
+        // Returns the list of Pokemon names that have the query string as a substring
+        // (which does not have to be contiguous).
         let query = query.lowercased()
         if query.trimmingCharacters(in: .whitespaces) == "" {
             return pokemonNames
@@ -41,6 +49,8 @@ class FuzzyFinderViewModel: ObservableObject, Observable {
         })
     }
 
+    // Utility function to determine whether one string is a substring of another.
+    // This is the main functionality to determine which Pokemon to show in a search query.
     private func isSubSequence(sub: String, larger: String) -> Bool {
         let subLength = sub.count
         let largerLength = larger.count

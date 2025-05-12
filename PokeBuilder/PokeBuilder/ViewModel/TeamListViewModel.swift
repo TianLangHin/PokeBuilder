@@ -7,22 +7,17 @@
 
 import SwiftUI
 
+// This ViewModel manages the list of teams that a user will have in the app.
 class TeamListViewModel: ObservableObject, Observable {
     @Published var userTeams: [Team] = []
-
-    func removeTeam(team: Team) {
-        guard let index = userTeams.firstIndex(where: {$0.id == team.id}) else {
-            return
-        }
-        self.userTeams[index].clear()
-        self.userTeams.remove(at: index)
-    }
 
     func addTeam(name: String) {
         let newTeam = Team(name: name)
         userTeams.append(newTeam)
     }
 
+    // Used for determining whether a new team of a certain name can be made,
+    // since duplicates are disallowed.
     func duplicateCheck(name: String) -> Bool {
         return userTeams.map({$0.name}).contains(name)
     }

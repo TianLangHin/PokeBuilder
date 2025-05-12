@@ -30,17 +30,6 @@ struct Team: Identifiable {
         self.pokemon.append(pokemon)
     }
 
-    mutating func deletePokemon(pokemon: Pokemon) {
-        // To ensure no out-of-the-ordinary operations occur
-        // in the view (perhaps due to UI timing mismatches),
-        // we utilise the identifiability of Pokemon to ensure
-        // we are removing a valid one from the team.
-        guard let index = self.pokemon.firstIndex(where: {$0.id == pokemon.id}) else {
-            return
-        }
-        self.pokemon.remove(at: index)
-    }
-
     mutating func clear() {
         self.pokemon.removeAll()
     }
