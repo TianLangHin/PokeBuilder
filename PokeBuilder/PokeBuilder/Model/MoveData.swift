@@ -7,6 +7,11 @@
 
 import SwiftUI
 
+// This struct is used for directly reading Pokemon move data
+// from the JSON returned by PokeAPI.
+// It uses the inner `DamageClass` struct as well for storing whether
+// it is a Physical, Special or Status move
+// (which affects whether it is counting in offensive team coverage analysis).
 struct MoveData: Codable {
     let type: PokemonType
     let damageClass: DamageClass

@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct PokemonType: Codable {
+    // The `name` is most used for display,
+    // while the `url` is used to query PokeAPI for type interactions.
     let name: String
     let url: URL?
-    
-    // Taken from: https://gist.github.com/apaleslimghost/0d25ec801ca4fc43317bcff298af43c3
+
+    // Colours for each Pokemon type, inspiration of which is taken from
+    // https://gist.github.com/apaleslimghost/0d25ec801ca4fc43317bcff298af43c3
     func getBackgroundColour() -> Color {
         switch self.name {
         case "normal":
@@ -55,7 +58,8 @@ struct PokemonType: Codable {
         }
     }
 
-    // Designed to maximise contrast with the background colour.
+    // Colours for the foreground text when put against the above background color,
+    // designed to maximise contrast with the background colour.
     func getForegroundColour() -> Color {
         switch self.name {
         case "normal":
@@ -97,5 +101,5 @@ struct PokemonType: Codable {
         default:
             return Color.black
         }
-    }   
+    }
 }
