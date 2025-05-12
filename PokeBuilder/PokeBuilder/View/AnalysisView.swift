@@ -14,6 +14,8 @@ struct AnalysisView: View {
     @State var team: Team
     @State var defensiveCoverage: [String: Int] = [:]
     @State var offensiveCoverage: [String: Int] = [:]
+    @State var isLoadingDefense = true
+    @State var isLoadingOffense = true
 
     var body: some View {
         VStack {
@@ -25,21 +27,37 @@ struct AnalysisView: View {
                 VStack {
                     Text("Defensive Coverage")
                         .padding()
-                    List(Array(defensiveCoverage).sorted(by: { e1, e2 in
-                        TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
-                        < TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
-                    }), id: \.key) { key, value in
-                        Text("\(key.capitalized): \(value)")
+                    if isLoadingDefense {
+                        VStack {
+                            Spacer()
+                            Text("Loading...")
+                            Spacer()
+                        }
+                    } else {
+                        List(Array(defensiveCoverage).sorted(by: { e1, e2 in
+                            TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
+                            < TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
+                        }), id: \.key) { key, value in
+                            Text("\(key.capitalized): \(value)")
+                        }
                     }
                 }
                 VStack {
                     Text("Offensive Coverage")
                         .padding()
-                    List(Array(offensiveCoverage).sorted(by: { e1, e2 in
-                        TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
-                        < TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
-                    }), id: \.key) { key, value in
-                        Text("\(key.capitalized): \(value)")
+                    if isLoadingOffense {
+                        VStack {
+                            Spacer()
+                            Text("Loading...")
+                            Spacer()
+                        }
+                    } else {
+                        List(Array(offensiveCoverage).sorted(by: { e1, e2 in
+                            TeamAnalysisViewModel.typeNames.firstIndex(of: e1.key) ?? 0
+                            < TeamAnalysisViewModel.typeNames.firstIndex(of: e2.key) ?? 0
+                        }), id: \.key) { key, value in
+                            Text("\(key.capitalized): \(value)")
+                        }
                     }
                 }
             }
@@ -48,7 +66,9 @@ struct AnalysisView: View {
             Task {
                 await teamAnalysis.prepareTable()
                 defensiveCoverage = teamAnalysis.defensiveCoverage(team: team)
+                isLoadingDefense = false
                 offensiveCoverage = await teamAnalysis.offensiveCoverage(team: team)
+                isLoadingOffense = false
             }
         })
     }

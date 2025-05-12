@@ -64,7 +64,6 @@ struct StatSpread {
     // For calculating the new stat total if a particular stat were to be changed
     // to the new value `increment`.
     func newTotal(change: Stat, increment: Int) -> Int {
-        let total = currentTotal()
         return currentTotal() - getStat(stat: change) + increment
     }
 }
