@@ -2,6 +2,11 @@
 
 This source code is accessible at [this GitHub repository link](https://github.com/TianLangHin/PokeBuilder).
 
+**Team Members:**
+* Tian Lang Hin (24766127), GitHub username `TianLangHin`
+* Duong Anh Tran (24775456), GitHub username `DuongAnhTran`
+* Isabella Watt (24843322), GitHub username `Payayaing`
+
 ## App Objective and Minimum Viable Product
 
 PokéBuilder is a Pokémon team builder app,
